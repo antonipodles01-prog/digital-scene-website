@@ -9,6 +9,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="./street-image-compressed.jpg">
+  <link rel="preload" as="image" href="./fashion-image-compressed.jpg">
+  <link rel="preload" as="image" href="./music-image-compressed.jpg">
+  <link rel="preload" as="image" href="./film-image-compressed.jpg">
 
   <style>
     :root {
@@ -684,8 +688,8 @@
       // Video intro phase machine
       useEffect(() => {
         const t1 = setTimeout(() => setHeroPhase("closing"),  2000);
-        const t2 = setTimeout(() => setHeroPhase("black"),    2900);
-        const t3 = setTimeout(() => setHeroPhase("revealed"), 3400);
+        const t2 = setTimeout(() => setHeroPhase("black"),    2600);
+        const t3 = setTimeout(() => setHeroPhase("revealed"), 2700);
         return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
       }, []);
 
@@ -734,13 +738,13 @@
             className="curtain curtain-top"
             animate={{ height: (heroPhase === "closing" || heroPhase === "black") ? "50%" : "0%" }}
             initial={{ height: "0%" }}
-            transition={{ duration: 0.9, ease: EASE_PANEL }}
+            transition={{ duration: 0.6, ease: EASE_PANEL }}
           />
           <motion.div
             className="curtain curtain-bottom"
             animate={{ height: (heroPhase === "closing" || heroPhase === "black") ? "50%" : "0%" }}
             initial={{ height: "0%" }}
-            transition={{ duration: 0.9, ease: EASE_PANEL }}
+            transition={{ duration: 0.6, ease: EASE_PANEL }}
           />
 
           {/* Top bar — contact only, visible from the start */}
