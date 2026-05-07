@@ -466,13 +466,12 @@
     const CYCLE_WORDS = ["STREET", "FASHION", "MUSIC", "FILM"];
     const GAP = 22; // gap between THE / word / SCENE — also used in collapsed state
 
-    function HeadlineAnimated({ initialDelay = 2100, onStart, onWordChange }) {
+    function HeadlineAnimated({ initialDelay = 2100, onWordActive }) {
       const [phase, setPhase] = useState("collapsed");
       const [idx, setIdx]     = useState(0);
       const [slotW, setSlotW] = useState(0);
       const measureRef        = useRef(null);
       const widths            = useRef([]);
-      const hasStarted        = useRef(false);
 
       // Measure word widths; re-measure once fonts are ready
       useEffect(() => {
@@ -496,14 +495,6 @@
         return () => clearTimeout(t);
       }, []); // runs once per mount — initialDelay captured in closure
 
-      // fire onStart once when marquee enters playing for the first time
-      useEffect(() => {
-        if (phase === "playing" && !hasStarted.current) {
-          hasStarted.current = true;
-          onStart?.();
-        }
-      }, [phase]);
-
       // expanding: wait for slot animation to finish, then start cycling
       useEffect(() => {
         if (phase !== "expanding") return;
@@ -511,9 +502,10 @@
         return () => clearTimeout(t);
       }, [phase]);
 
-      // playing: show each word for 1s, then advance or collapse
+      // playing: fire onWordActive for every active word, advance or collapse after 1s
       useEffect(() => {
         if (phase !== "playing") return;
+        onWordActive?.(idx);
         const t = setTimeout(() => {
           if (idx >= CYCLE_WORDS.length - 1) {
             setPhase("collapsing");
@@ -521,7 +513,6 @@
             const next = idx + 1;
             setSlotW(widths.current[next] || 0);
             setIdx(next);
-            onWordChange?.();
           }
         }, 1000);
         return () => clearTimeout(t);
@@ -676,10 +667,19 @@
     }
 
     /* ─── Hero ──────────────────────────────────────────────── */
+    const WORD_IMAGES = [
+      "./street-image-compressed.jpg",
+      "./fashion-image-compressed.jpg",
+      "./music-image-compressed.jpg",
+      "./film-image-compressed.jpg",
+    ];
+
     function HeroSection({ onOpenPanel, onOpenContact, replayKey }) {
       const [heroPhase, setHeroPhase] = useState("video");
       const [bgVisible, setBgVisible] = useState(false);
+      const [wordIdx,   setWordIdx]   = useState(0);
       const [flashKey,  setFlashKey]  = useState(0);
+      const bgVisibleRef              = useRef(false);
 
       // Video intro phase machine
       useEffect(() => {
@@ -705,12 +705,13 @@
             />
           )}
 
-          {/* Hero image — fades in when marquee starts cycling */}
+          {/* Hero image — swaps per word, fades in on first word */}
           <motion.div
             className="hero-bg"
+            style={{ backgroundImage: bgVisible ? `url('${WORD_IMAGES[wordIdx]}')` : "none" }}
             animate={{ opacity: bgVisible ? 0.52 : 0 }}
             initial={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
           />
           <div className="hero-overlay" />
           <div className="hero-center-vignette" />
@@ -765,8 +766,15 @@
                   ? <HeadlineAnimated
                       key={replayKey}
                       initialDelay={600}
-                      onStart={() => setBgVisible(true)}
-                      onWordChange={() => setFlashKey(k => k + 1)}
+                      onWordActive={(i) => {
+                        setWordIdx(i);
+                        if (bgVisibleRef.current) {
+                          setFlashKey(k => k + 1);
+                        } else {
+                          bgVisibleRef.current = true;
+                          setBgVisible(true);
+                        }
+                      }}
                     />
                   : <><span className="word">THE</span><span className="word">&nbsp;SCENE</span></>
                 }
