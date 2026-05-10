@@ -27,6 +27,7 @@
       --accent: #ffffff;
       --accent-blue: #e8e4dc;
       --accent-blue-2: #f0ece4;
+      --accent-warm: #C9956A;
     }
 
     * { box-sizing: border-box; }
@@ -144,11 +145,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff;
+      color: var(--accent-warm);
       white-space: nowrap;
       text-shadow:
-        0 0 6px rgba(255,255,255,0.9),
-        0 0 14px rgba(255,255,255,0.4);
+        0 0 6px rgba(201,149,106,0.95),
+        0 0 22px rgba(201,149,106,0.5),
+        0 0 48px rgba(201,149,106,0.2);
     }
     /* Hidden measurer — inherits font from parent h1 */
     .tm-measure {
@@ -483,6 +485,45 @@
       return <span className={className} style={style}>{out}</span>;
     }
 
+    /* ─── Reveal (scroll-triggered fade-up) ─────────────────── */
+    function Reveal({ children, delay = 0, className, style }) {
+      const ref    = useRef(null);
+      const inView = FM.useInView(ref, { once: true, margin: "0px 0px -60px 0px" });
+      return (
+        <motion.div ref={ref} className={className} style={style}
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+          transition={{ duration: 0.65, delay, ease: EASE_OUT }}
+        >
+          {children}
+        </motion.div>
+      );
+    }
+
+    /* ─── MagneticBtn ───────────────────────────────────────── */
+    function MagneticBtn({ children, className, onClick, style }) {
+      const x   = FM.useMotionValue(0);
+      const y   = FM.useMotionValue(0);
+      const sx  = FM.useSpring(x, { stiffness: 350, damping: 22 });
+      const sy  = FM.useSpring(y, { stiffness: 350, damping: 22 });
+      const ref = useRef(null);
+      const onMove  = e => {
+        const r = ref.current.getBoundingClientRect();
+        x.set((e.clientX - (r.left + r.width  / 2)) * 0.25);
+        y.set((e.clientY - (r.top  + r.height / 2)) * 0.25);
+      };
+      const onLeave = () => { x.set(0); y.set(0); };
+      return (
+        <motion.button ref={ref} className={className} style={{ ...style, x: sx, y: sy }}
+          onMouseMove={onMove} onMouseLeave={onLeave}
+          whileTap={{ scale: 0.96 }}
+          onClick={onClick}
+        >
+          {children}
+        </motion.button>
+      );
+    }
+
     /* ─── Animated headline ─────────────────────────────────── */
     // phases: collapsed → expanding → playing → collapsing → collapsed (loop)
     //   "collapsed"  : THE SCENE touch with no gap ("THESCENE")
@@ -769,6 +810,17 @@
             transition={{ duration: 0.6, ease: EASE_PANEL }}
           />
 
+          {/* Loading progress bar — fills linearly over video duration */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: heroPhase === "video" ? 1 : 0, opacity: heroPhase === "revealed" ? 0 : 1 }}
+            transition={{
+              scaleX: heroPhase === "video" ? { duration: 2.0, ease: "linear" } : { duration: 0.35, ease: EASE_PANEL },
+              opacity: { duration: 0.3 }
+            }}
+            style={{ position: "absolute", bottom: 0, left: 0, width: "100%", height: "1px", background: "var(--accent-warm)", zIndex: 18, pointerEvents: "none", transformOrigin: "left center" }}
+          />
+
           {/* Top bar — contact only, visible from the start */}
           <div className="hero-topbar" style={{ position: "absolute", top: 0, left: 0, right: 0, padding: "24px 40px", zIndex: 10, display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
             <motion.button
@@ -815,10 +867,10 @@
                   animate={revealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   transition={{ delay: 0.3 + i * 0.12, duration: 0.55, ease: EASE_OUT }}
                 >
-                  <button className="cta-slab" onClick={() => onOpenPanel(type)}>
+                  <MagneticBtn className="cta-slab" onClick={() => onOpenPanel(type)}>
                     <span className="tick tl"/><span className="tick tr"/><span className="tick bl"/><span className="tick br"/>
                     <span>{type === "brands" ? "For Brands" : "For Creators"}</span>
-                  </button>
+                  </MagneticBtn>
                 </motion.div>
               ))}
             </div>
@@ -918,11 +970,16 @@
     };
 
     function CaseStudyCard({ cs, onOpen, idx }) {
+      const cardRef = useRef(null);
+      const inView  = FM.useInView(cardRef, { once: true, margin: "0px 0px -40px 0px" });
       return (
         <motion.div
+          ref={cardRef}
           className="case-card"
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 + idx * 0.06, duration: 0.5, ease: EASE_OUT }}
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+          whileHover={{ y: -6, transition: { duration: 0.3, ease: EASE_OUT } }}
+          transition={{ delay: idx * 0.08, duration: 0.5, ease: EASE_OUT }}
           onClick={() => onOpen(cs)}
         >
           <div className="brand-slot">{cs.brand}</div>
@@ -1090,24 +1147,30 @@
               {type === "brands" && (
                 <>
                   <div className="section-spacer" />
-                  <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.3)", marginBottom: 24 }}>Work</div>
-                  <CaseStudyGrid onOpen={setActiveCS} />
+                  <Reveal delay={0.1}>
+                    <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.3)", marginBottom: 24 }}>Work</div>
+                    <CaseStudyGrid onOpen={setActiveCS} />
+                  </Reveal>
                 </>
               )}
 
               {type === "creators" && (
                 <>
                   <div className="section-spacer" />
-                  <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.3)", marginBottom: 32 }}>Brands We've Worked With</div>
-                  <BrandPartners />
+                  <Reveal delay={0.1}>
+                    <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.3)", marginBottom: 32 }}>Brands We've Worked With</div>
+                    <BrandPartners />
+                  </Reveal>
                 </>
               )}
 
               {/* Panel footer */}
-              <div className="panel-footer" style={{ marginTop: 96, paddingTop: 32, borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-                <span style={{ fontSize: 9, letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>{C.brand.discipline}</span>
-                <span style={{ fontSize: 9, letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>{C.brand.est} — © The Digital Scene</span>
-              </div>
+              <Reveal>
+                <div className="panel-footer" style={{ marginTop: 96, paddingTop: 32, borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+                  <span style={{ fontSize: 9, letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>{C.brand.discipline}</span>
+                  <span style={{ fontSize: 9, letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>{C.brand.est} — © The Digital Scene</span>
+                </div>
+              </Reveal>
             </div>
 
             <CaseStudyModal cs={activeCS} onClose={() => setActiveCS(null)} />
