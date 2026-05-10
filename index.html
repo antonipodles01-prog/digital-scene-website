@@ -8,7 +8,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="./street-image-compressed.jpg">
   <link rel="preload" as="image" href="./fashion-image-compressed.jpg">
   <link rel="preload" as="image" href="./music-image-compressed.jpg">
@@ -145,12 +145,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
       color: transparent;
       -webkit-text-stroke: 1px var(--accent-warm);
       white-space: nowrap;
-      text-shadow: 0 0 4px rgba(242,224,168,0.6);
+      text-shadow: 0 0 5px rgba(242,224,168,0.55);
     }
-    /* Hidden measurer — inherits font from parent h1 */
+    /* Hidden measurer — must match tm-word font exactly */
     .tm-measure {
       position: absolute;
       visibility: hidden;
@@ -158,6 +159,7 @@
       white-space: nowrap;
       left: -9999px;
       top: 0;
+      font-family: 'Bebas Neue', sans-serif;
     }
     @media (max-width: 900px) { .hero-h1 { font-size: clamp(28px, 8.5vw, 84px); } }
     @media (max-width: 520px)  { .hero-h1 { font-size: clamp(22px, 9vw, 60px); } }
