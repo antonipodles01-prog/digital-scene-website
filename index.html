@@ -145,13 +145,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(105deg, var(--accent-blue) 38%, #fff 50%, var(--accent-blue) 62%);
-      background-size: 250% 100%;
+      background: linear-gradient(105deg,
+        var(--accent-blue) 28%,
+        rgba(255,255,255,0.55) 40%,
+        #fff 50%,
+        rgba(255,255,255,0.55) 60%,
+        var(--accent-blue) 72%
+      );
+      background-size: 260% 100%;
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       white-space: nowrap;
-      animation: shimmerglow 1.5s ease-in-out infinite;
+      animation: shimmerglow 2s ease-in-out infinite;
     }
     /* Hidden measurer — inherits font from parent h1 */
     .tm-measure {
@@ -230,15 +236,26 @@
     @keyframes shimmerglow {
       0%   {
         background-position: -60% center;
-        text-shadow: 0 0 4px rgba(143,179,184,0.4), 0 0 12px rgba(143,179,184,0.15);
+        text-shadow:
+          0 0 3px rgba(143,179,184,0.5),
+          0 0 10px rgba(143,179,184,0.25),
+          0 0 22px rgba(143,179,184,0.1);
       }
       50%  {
         background-position: 50% center;
-        text-shadow: 0 0 6px rgba(255,255,255,0.8), 0 0 16px rgba(143,179,184,0.7), 0 0 32px rgba(143,179,184,0.3);
+        text-shadow:
+          0 0 2px rgba(255,255,255,1),
+          0 0 8px rgba(255,255,255,0.6),
+          0 0 18px rgba(143,179,184,0.8),
+          0 0 36px rgba(143,179,184,0.4),
+          0 0 60px rgba(143,179,184,0.15);
       }
       100% {
         background-position: 160% center;
-        text-shadow: 0 0 4px rgba(143,179,184,0.4), 0 0 12px rgba(143,179,184,0.15);
+        text-shadow:
+          0 0 3px rgba(143,179,184,0.5),
+          0 0 10px rgba(143,179,184,0.25),
+          0 0 22px rgba(143,179,184,0.1);
       }
     }
 
