@@ -27,7 +27,7 @@
       --accent: #ffffff;
       --accent-blue: #e8e4dc;
       --accent-blue-2: #f0ece4;
-      --accent-warm: #C9956A;
+      --accent-warm: #F2E0A8;
     }
 
     * { box-sizing: border-box; }
@@ -96,10 +96,10 @@
       inset: 0;
       background: linear-gradient(
         180deg,
-        rgba(0,0,0,0.76) 0%,
-        rgba(0,0,0,0.44) 45%,
-        rgba(0,0,0,0.44) 55%,
-        rgba(0,0,0,0.84) 100%
+        rgba(0,0,0,0.62) 0%,
+        rgba(0,0,0,0.28) 40%,
+        rgba(0,0,0,0.28) 60%,
+        rgba(0,0,0,0.72) 100%
       );
       pointer-events: none;
     }
@@ -148,9 +148,11 @@
       color: var(--accent-warm);
       white-space: nowrap;
       text-shadow:
-        0 0 6px rgba(201,149,106,0.95),
-        0 0 22px rgba(201,149,106,0.5),
-        0 0 48px rgba(201,149,106,0.2);
+        0 0 4px rgba(242,224,168,1),
+        0 0 14px rgba(220,175,70,0.9),
+        0 0 32px rgba(130,40,185,0.8),
+        0 0 64px rgba(90,20,145,0.55),
+        0 0 110px rgba(60,10,115,0.3);
     }
     /* Hidden measurer — inherits font from parent h1 */
     .tm-measure {
@@ -776,7 +778,7 @@
           <motion.div
             className="hero-bg"
             style={{ backgroundImage: bgVisible ? `url('${WORD_IMAGES[wordIdx]}')` : "none" }}
-            animate={{ opacity: bgVisible ? 0.52 : 0 }}
+            animate={{ opacity: bgVisible ? 0.72 : 0 }}
             initial={{ opacity: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           />
@@ -808,17 +810,6 @@
             animate={{ height: (heroPhase === "closing" || heroPhase === "black") ? "50%" : "0%" }}
             initial={{ height: "0%" }}
             transition={{ duration: 0.6, ease: EASE_PANEL }}
-          />
-
-          {/* Loading progress bar — fills linearly over video duration */}
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: heroPhase === "video" ? 1 : 0, opacity: heroPhase === "revealed" ? 0 : 1 }}
-            transition={{
-              scaleX: heroPhase === "video" ? { duration: 2.0, ease: "linear" } : { duration: 0.35, ease: EASE_PANEL },
-              opacity: { duration: 0.3 }
-            }}
-            style={{ position: "absolute", bottom: 0, left: 0, width: "100%", height: "1px", background: "var(--accent-warm)", zIndex: 18, pointerEvents: "none", transformOrigin: "left center" }}
           />
 
           {/* Top bar — contact only, visible from the start */}
