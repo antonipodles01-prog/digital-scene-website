@@ -135,7 +135,7 @@
       position: relative;
       display: inline-block;
       height: 1em;
-      overflow: visible;
+      overflow: hidden;
       vertical-align: middle;
       text-align: center;
     }
@@ -145,14 +145,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--accent-warm);
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--accent-warm);
       white-space: nowrap;
-      text-shadow:
-        0 0 4px rgba(242,224,168,1),
-        0 0 14px rgba(220,175,70,0.9),
-        0 0 32px rgba(130,40,185,0.8),
-        0 0 64px rgba(90,20,145,0.55),
-        0 0 110px rgba(60,10,115,0.3);
+      text-shadow: 0 0 28px rgba(242,224,168,0.3);
     }
     /* Hidden measurer — inherits font from parent h1 */
     .tm-measure {
@@ -541,11 +537,6 @@
       const [slotW, setSlotW] = useState(0);
       const measureRef        = useRef(null);
       const widths            = useRef([]);
-      // Gooey morph refs
-      const g1       = useRef(null); // "from" span
-      const g2       = useRef(null); // "to" span
-      const prevWord = useRef("");
-      const morphRaf = useRef(null);
 
       // Measure word widths; re-measure once fonts are ready
       useEffect(() => {
@@ -559,7 +550,7 @@
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
       }, []);
 
-      // Wait initialDelay, then open slot
+      // Wait initialDelay, then open the slot and start expanding
       useEffect(() => {
         const t = setTimeout(() => {
           setIdx(0);
@@ -569,55 +560,18 @@
         return () => clearTimeout(t);
       }, []);
 
-      // expanding → playing; reset prevWord so first word snaps in
+      // expanding: wait for slot animation to finish, then start cycling
       useEffect(() => {
         if (phase !== "expanding") return;
-        prevWord.current = "";
         const t = setTimeout(() => setPhase("playing"), 620);
         return () => clearTimeout(t);
       }, [phase]);
 
-      // playing: gooey morph between consecutive words
+      // playing: fire onWordActive, advance or collapse after 1s
       useEffect(() => {
         if (phase !== "playing") return;
-
-        const fromWord = prevWord.current;
-        const toWord   = CYCLE_WORDS[idx];
-
-        if (g1.current) g1.current.textContent = fromWord;
-        if (g2.current) g2.current.textContent = toWord;
-
         onWordActive?.(idx);
-
-        const MORPH_MS = 500;
-
-        if (!fromWord) {
-          // First word of each cycle — snap in immediately, no morph
-          if (g1.current) { g1.current.style.filter = ""; g1.current.style.opacity = "0%"; }
-          if (g2.current) { g2.current.style.filter = ""; g2.current.style.opacity = "100%"; }
-        } else {
-          cancelAnimationFrame(morphRaf.current);
-          const start = Date.now();
-          const tick = () => {
-            const f   = Math.min((Date.now() - start) / MORPH_MS, 1);
-            const inv = 1 - f;
-            if (g2.current) {
-              g2.current.style.filter  = `blur(${Math.min(8 / f - 8, 100)}px)`;
-              g2.current.style.opacity = `${Math.pow(f, 0.4) * 100}%`;
-            }
-            if (g1.current) {
-              g1.current.style.filter  = inv > 0.001 ? `blur(${Math.min(8 / inv - 8, 100)}px)` : "";
-              g1.current.style.opacity = inv > 0.001 ? `${Math.pow(inv, 0.4) * 100}%` : "0%";
-            }
-            if (f < 1) morphRaf.current = requestAnimationFrame(tick);
-          };
-          morphRaf.current = requestAnimationFrame(tick);
-        }
-
-        prevWord.current = toWord;
-
         const t = setTimeout(() => {
-          cancelAnimationFrame(morphRaf.current);
           if (idx >= CYCLE_WORDS.length - 1) {
             setPhase("collapsing");
           } else {
@@ -626,19 +580,16 @@
             setIdx(next);
           }
         }, 1000);
-
-        return () => { clearTimeout(t); cancelAnimationFrame(morphRaf.current); };
+        return () => clearTimeout(t);
       }, [idx, phase]);
 
-      // collapsing: close slot, pause, loop
+      // collapsing: close slot (0.7s), pause (1s), loop
       useEffect(() => {
         if (phase !== "collapsing") return;
-        cancelAnimationFrame(morphRaf.current);
         setSlotW(0);
         const tCollapsed = setTimeout(() => setPhase("collapsed"), 700);
         const tExpand    = setTimeout(() => {
           setIdx(0);
-          prevWord.current = "";
           setSlotW(widths.current[0] || 0);
           setPhase("expanding");
         }, 700 + 1000);
@@ -647,7 +598,7 @@
 
       return (
         <>
-          {/* Hidden measurer */}
+          {/* Hidden measurer — inherits h1 font via CSS cascade */}
           <span ref={measureRef} className="tm-measure" aria-hidden="true">
             {CYCLE_WORDS.map(w => <span key={w} data-w>{w}</span>)}
           </span>
@@ -665,11 +616,20 @@
             initial={{ width: 0, marginLeft: GAP, marginRight: GAP, opacity: 0 }}
             transition={{ duration: 0.55, ease: EASE_PANEL }}
           >
-            {/* Gooey container — SVG filter merges both blurred spans into one liquid shape */}
-            <div style={{ filter: "url(#gooey-hero)", position: "absolute", inset: 0 }}>
-              <span ref={g1} className="tm-word" style={{ opacity: "0%" }} />
-              <span ref={g2} className="tm-word" style={{ opacity: "0%" }} />
-            </div>
+            <AnimatePresence mode="popLayout">
+              {phase === "playing" && (
+                <motion.span
+                  key={CYCLE_WORDS[idx]}
+                  className="tm-word"
+                  initial={{ y: "100%", opacity: 0, filter: "blur(6px)" }}
+                  animate={{ y: "0%",   opacity: 1, filter: "blur(0px)" }}
+                  exit={  { y: "-100%", opacity: 0, filter: "blur(6px)" }}
+                  transition={{ duration: 0.5, ease: EASE_PANEL }}
+                >
+                  {CYCLE_WORDS[idx]}
+                </motion.span>
+              )}
+            </AnimatePresence>
           </motion.span>
 
           <span className="word">SCENE</span>
@@ -798,16 +758,6 @@
           className="grain"
           style={{ position: "fixed", inset: 0, height: "100dvh", width: "100vw", overflow: "hidden", background: "#000" }}
         >
-          {/* SVG gooey filter — zero size, just registers the filter in the DOM */}
-          <svg style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }} aria-hidden="true">
-            <defs>
-              <filter id="gooey-hero">
-                <feColorMatrix in="SourceGraphic" type="matrix"
-                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 255 -140" />
-              </filter>
-            </defs>
-          </svg>
-
           {/* Video — plays during intro, hidden once text is revealed */}
           {!revealed && (
             <video
@@ -834,9 +784,9 @@
               <motion.div
                 key={flashKey}
                 style={{ position: "absolute", inset: 0, background: "#fff", zIndex: 15, pointerEvents: "none" }}
-                initial={{ opacity: 0.55 }}
+                initial={{ opacity: 0.28 }}
                 animate={{ opacity: 0 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
+                transition={{ duration: 0.18, ease: "easeOut" }}
               />
             )}
           </AnimatePresence>
