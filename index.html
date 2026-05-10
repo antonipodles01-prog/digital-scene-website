@@ -360,6 +360,28 @@
     @media (min-width: 769px) and (max-width: 1024px) {
       .case-grid { grid-template-columns: repeat(2, 1fr) !important; }
     }
+    @media (max-width: 480px) {
+      /* Hero bars */
+      .hero-topbar    { padding: 16px 20px !important; }
+      .hero-bottombar { padding: 16px 20px !important; }
+      /* Hero h1 — slightly smaller so FASHION fits on one line */
+      .hero-h1 { font-size: clamp(17px, 7.8vw, 38px); }
+      /* CTA slab pair fits side-by-side */
+      .cta-slab { width: min(145px, 40vw); padding: 15px 10px; }
+      .cta-container { margin-top: 32px !important; gap: 10px !important; }
+      /* Accordion — collapse wide left column */
+      .acc-btn  { grid-template-columns: 32px 1fr auto !important; gap: 10px !important; padding: 18px 0 !important; }
+      .acc-body { grid-template-columns: 32px 1fr !important; gap: 10px !important; }
+      /* Case study modal */
+      .case-modal-inner  { padding: 24px 18px !important; }
+      .case-modal-title  { font-size: clamp(20px, 5.5vw, 30px) !important; margin-top: 12px !important; }
+      .case-results-grid { gap: 12px !important; }
+      .case-metric-big   { font-size: 34px !important; }
+      /* Panel footer */
+      .panel-footer { margin-top: 48px !important; }
+      /* Contact modal */
+      .contact-modal { padding: 24px 20px !important; }
+    }
 
     /* ── Reduced motion ────────────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
@@ -748,7 +770,7 @@
           />
 
           {/* Top bar — contact only, visible from the start */}
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, padding: "24px 40px", zIndex: 10, display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+          <div className="hero-topbar" style={{ position: "absolute", top: 0, left: 0, right: 0, padding: "24px 40px", zIndex: 10, display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
             <motion.button
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.5 }}
               className="contact-btn"
@@ -785,7 +807,7 @@
               </h1>
             </motion.div>
 
-            <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginTop: 56 }}>
+            <div className="cta-container" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginTop: 56 }}>
               {["brands", "creators"].map((type, i) => (
                 <motion.div
                   key={type}
@@ -803,7 +825,7 @@
           </div>
 
           {/* Bottom bar — star left, London right, visible from start */}
-          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "24px 40px", zIndex: 10, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div className="hero-bottombar" style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "24px 40px", zIndex: 10, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <motion.span
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.5 }}
               className="star-spin"
@@ -847,7 +869,7 @@
               >
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
-                  style={{ width: "100%", display: "grid", gridTemplateColumns: "80px 1fr auto", alignItems: "center", gap: 16, padding: "28px 0", background: "transparent", border: 0, textAlign: "left", color: "#fff" }}
+                  className="acc-btn" style={{ width: "100%", display: "grid", gridTemplateColumns: "80px 1fr auto", alignItems: "center", gap: 16, padding: "28px 0", background: "transparent", border: 0, textAlign: "left", color: "#fff" }}
                 >
                   <span className="font-mono" style={{ fontSize: 11, letterSpacing: "0.18em", color: isOpen ? "var(--accent-blue-2)" : "rgba(255,255,255,0.3)", transition: "color 0.25s" }}>
                     {String(i + 1).padStart(2, "0")}
@@ -872,7 +894,7 @@
                       transition={{ duration: 0.45, ease: EASE_PANEL }}
                       style={{ overflow: "hidden" }}
                     >
-                      <div style={{ display: "grid", gridTemplateColumns: "80px 1fr", gap: 16, padding: "0 0 32px" }}>
+                      <div className="acc-body" style={{ display: "grid", gridTemplateColumns: "80px 1fr", gap: 16, padding: "0 0 32px" }}>
                         <span />
                         <p style={{ maxWidth: 560, fontSize: 15, lineHeight: 1.7, color: "rgba(255,255,255,0.65)", margin: 0, fontWeight: 400 }}>
                           {SERVICE_DETAILS[s] || ""}
@@ -978,7 +1000,7 @@
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.3, ease: EASE_OUT }}
                 className="grain"
-                style={{ position: "relative", width: "min(800px,90vw)", maxHeight: "85vh", overflowY: "auto", background: "#111", border: "1px solid rgba(255,255,255,0.1)", padding: 48 }}
+                className="grain case-modal-inner" style={{ position: "relative", width: "min(800px,90vw)", maxHeight: "85vh", overflowY: "auto", background: "#111", border: "1px solid rgba(255,255,255,0.1)", padding: 48 }}
               >
                 <button
                   onClick={onClose}
@@ -989,17 +1011,17 @@
                 >×</button>
 
                 <div className="brand-slot" style={{ width: 80, height: 28 }}>{cs.brand}</div>
-                <h2 className="font-display" style={{ fontSize: 40, margin: "20px 0 0", color: "#fff", lineHeight: 1.1 }}>{cs.title}</h2>
+                <h2 className="font-display case-modal-title" style={{ fontSize: 40, margin: "20px 0 0", color: "#fff", lineHeight: 1.1 }}>{cs.title}</h2>
                 <hr style={{ border: 0, borderTop: "1px solid rgba(255,255,255,0.08)", margin: "24px 0" }} />
 
                 <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.4)", marginBottom: 16 }}>Overview</div>
                 <p style={{ fontSize: 14, lineHeight: 1.8, color: "rgba(255,255,255,0.65)", margin: 0, fontWeight: 300 }}>{cs.overview}</p>
 
                 <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.4)", marginTop: 36, marginBottom: 16 }}>Results</div>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
+                <div className="case-results-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
                   {cs.metrics.map(m => (
                     <div key={m.label}>
-                      <div className="font-display" style={{ fontSize: 64, lineHeight: 1, color: "#fff" }}>{m.value}</div>
+                      <div className="font-display case-metric-big" style={{ fontSize: 64, lineHeight: 1, color: "#fff" }}>{m.value}</div>
                       <div className="metric-lbl" style={{ marginTop: 8 }}>{m.label}</div>
                     </div>
                   ))}
@@ -1082,7 +1104,7 @@
               )}
 
               {/* Panel footer */}
-              <div style={{ marginTop: 96, paddingTop: 32, borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+              <div className="panel-footer" style={{ marginTop: 96, paddingTop: 32, borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
                 <span style={{ fontSize: 9, letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>{C.brand.discipline}</span>
                 <span style={{ fontSize: 9, letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>{C.brand.est} — © The Digital Scene</span>
               </div>
