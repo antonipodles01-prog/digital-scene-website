@@ -79,7 +79,7 @@
               exit={{ opacity: 0 }}
               transition={{ duration: 0.18 }}
               style={{
-                fontSize: 64,
+                fontSize: 88,
                 lineHeight: 1,
                 color: '#000',
                 fontWeight: 700,
@@ -96,6 +96,9 @@
 
     /* ── Contact overlay ────────────────────────────────────── */
     function Contact({ open }) {
+      const linkStyle = { color: '#000', textDecoration: 'none' };
+      const onEnter = e => e.currentTarget.style.opacity = '0.45';
+      const onLeave = e => e.currentTarget.style.opacity = '1';
       return (
         <AnimatePresence>
           {open && (
@@ -111,52 +114,38 @@
                 background: '#fff',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between',
+                justifyContent: 'center',
                 padding: 'clamp(32px, 4vw, 52px)',
               }}
             >
-              {/* Descriptor */}
-              <p style={{
-                fontSize: 'clamp(20px, 2.6vw, 32px)',
-                lineHeight: 1.65,
-                color: '#000',
-              }}>
-                The Scene is a boutique talent agency operating within contemporary culture
-              </p>
-
-              {/* Contact details */}
+              {/* All text blocks grouped with identical spacing */}
               <div style={{
                 fontSize: 'clamp(20px, 2.6vw, 32px)',
                 lineHeight: 1.65,
                 color: '#000',
               }}>
+                <p>The Scene is a boutique talent agency operating within contemporary culture</p>
+                <br />
                 <p>
                   224 Shoreditch High Street<br />
                   London, United Kingdom E1 6PJ
                 </p>
                 <br />
                 <p>
-                  <a
-                    href="mailto:hello@thedigitalscene.com"
-                    style={{ color: '#000', textDecoration: 'none' }}
-                    onMouseEnter={e => e.currentTarget.style.opacity = '0.45'}
-                    onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-                  >hello@thedigitalscene.com</a><br />
-                  <a
-                    href="https://www.instagram.com/the.digital.scene/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ color: '#000', textDecoration: 'none' }}
-                    onMouseEnter={e => e.currentTarget.style.opacity = '0.45'}
-                    onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-                  >
+                  <a href="mailto:hello@thedigitalscene.com" style={linkStyle} onMouseEnter={onEnter} onMouseLeave={onLeave}>
+                    hello@thedigitalscene.com
+                  </a><br />
+                  <a href="https://www.instagram.com/the.digital.scene/" target="_blank" rel="noopener noreferrer" style={linkStyle} onMouseEnter={onEnter} onMouseLeave={onLeave}>
                     Instagram
                   </a>
                 </p>
               </div>
 
-              {/* Footer */}
+              {/* Footer pinned to bottom-left */}
               <p style={{
+                position: 'absolute',
+                bottom: 'clamp(32px, 4vw, 52px)',
+                left: 'clamp(32px, 4vw, 52px)',
                 fontSize: 11,
                 color: '#000',
                 letterSpacing: '0.04em',
@@ -193,7 +182,7 @@
             <h1 style={{
               fontFamily: "'Druk Cond Super', sans-serif",
               fontWeight: 900,
-              fontSize: 'clamp(120px, 28vw, 480px)',
+              fontSize: 'clamp(140px, 36vw, 600px)',
               lineHeight: 1,
               color: '#000',
               textTransform: 'uppercase',
