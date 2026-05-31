@@ -79,10 +79,10 @@
               exit={{ opacity: 0 }}
               transition={{ duration: 0.18 }}
               style={{
-                fontSize: 28,
+                fontSize: 36,
                 lineHeight: 1,
                 color: '#000',
-                fontWeight: 300,
+                fontWeight: 700,
                 userSelect: 'none',
                 display: 'block',
               }}
@@ -117,14 +117,11 @@
             >
               {/* Descriptor */}
               <p style={{
-                fontSize: 'clamp(11px, 1.1vw, 15px)',
-                letterSpacing: '0.01em',
-                textTransform: 'uppercase',
-                lineHeight: 1.4,
+                fontSize: 'clamp(20px, 2.6vw, 32px)',
+                lineHeight: 1.65,
                 color: '#000',
-                maxWidth: 560,
               }}>
-                The Digital Scene is an influencer marketing &amp; talent management agency
+                The Scene is a boutique talent agency operating within contemporary culture
               </p>
 
               {/* Contact details */}
@@ -139,7 +136,12 @@
                 </p>
                 <br />
                 <p>
-                  hello@thedigitalscene.com<br />
+                  <a
+                    href="mailto:hello@thedigitalscene.com"
+                    style={{ color: '#000', textDecoration: 'none' }}
+                    onMouseEnter={e => e.currentTarget.style.opacity = '0.45'}
+                    onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+                  >hello@thedigitalscene.com</a><br />
                   <a
                     href="https://www.instagram.com/the.digital.scene/"
                     target="_blank"
@@ -155,9 +157,9 @@
 
               {/* Footer */}
               <p style={{
-                fontSize: 11,
-                color: 'rgba(0,0,0,0.35)',
-                letterSpacing: '0.04em',
+                fontSize: 'clamp(20px, 2.6vw, 32px)',
+                lineHeight: 1.65,
+                color: '#000',
               }}>
                 © The Digital Scene 2026
               </p>
@@ -191,7 +193,7 @@
             <h1 style={{
               fontFamily: "'Druk Cond Super', sans-serif",
               fontWeight: 900,
-              fontSize: 'clamp(80px, 18vw, 280px)',
+              fontSize: 'clamp(120px, 28vw, 480px)',
               lineHeight: 1,
               color: '#000',
               textTransform: 'uppercase',
