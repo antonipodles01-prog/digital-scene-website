@@ -3,16 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="The Digital Scene — Influencer Marketing & Talent Management">
-  <title>The Digital Scene</title>
-  <link rel="preload" href="./Fonts/JetBrainsMono-2.304/DrukCond-Super.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <title>The Scene</title>
+  <meta name="description" content="The Scene is a boutique talent agency operating within contemporary culture, representing fashion-first creators across lifestyle and creative industries.">
+  <meta property="og:title" content="The Scene">
+  <meta property="og:description" content="The Scene is a boutique talent agency operating within contemporary culture, representing fashion-first creators across lifestyle and creative industries.">
+  <meta property="og:type" content="website">
+
+  <!-- White favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'><rect fill='white' width='1' height='1'/></svg>">
+
+  <!-- Preload font — no crossorigin for same-origin font (crossorigin causes a separate CORS fetch that @font-face doesn't use, wasting the preload) -->
+  <link rel="preload" href="./Fonts/JetBrainsMono-2.304/DrukCond-Super.ttf" as="font" type="font/ttf">
 
   <style>
     @font-face {
       font-family: 'Druk Cond Super';
       src: url('./Fonts/JetBrainsMono-2.304/DrukCond-Super.ttf') format('truetype');
       font-weight: 900;
-      font-display: block;
+      /* optional = use font if available within first paint, no swap, no CLS */
+      font-display: optional;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -44,8 +53,10 @@
       line-height: 1;
       color: #000;
       text-transform: uppercase;
-      letter-spacing: -0.01em;
+      letter-spacing: 0;
       user-select: none;
+      /* Druk has large descender space — shift up to optically centre the cap height */
+      transform: translateY(-0.08em);
     }
 
     /* ── Toggle button ─────────────────────────────────────── */
