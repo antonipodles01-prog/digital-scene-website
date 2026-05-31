@@ -9,283 +9,27 @@
   <style>
     @font-face {
       font-family: 'Druk Cond Super';
-      src: url('./fonts/JetBrainsMono-2.304/DrukCond-Super.ttf') format('truetype');
+      src: url('./Fonts/JetBrainsMono-2.304/DrukCond-Super.ttf') format('truetype');
       font-weight: 900;
-      font-style: normal;
       font-display: swap;
-    }
-    @font-face {
-      font-family: 'JetBrains Mono';
-      src: url('./fonts/JetBrainsMono-2.304/fonts/ttf/JetBrainsMono-Regular.ttf') format('truetype');
-      font-weight: 400;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'JetBrains Mono';
-      src: url('./fonts/JetBrainsMono-2.304/fonts/ttf/JetBrainsMono-Bold.ttf') format('truetype');
-      font-weight: 700;
-      font-style: normal;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'Graphik Bold';
-      src: url('./Fonts/JetBrainsMono-2.304/fonts/Graphik-Bold.ttf') format('truetype');
-      font-weight: 700;
-      font-style: normal;
-      font-display: swap;
-    }
-    h2 { font-family: 'Graphik Bold', sans-serif !important; }
-    :root {
-      --color-bg: #000000;
-      --color-surface: #0d0d0d;
-      --color-surface-elevated: #141414;
-      --color-text-primary: #f0f0f0;
-      --color-text-secondary: #888888;
-      --color-text-muted: #444444;
-      --color-border: rgba(255,255,255,0.08);
-      --color-border-hover: rgba(255,255,255,0.2);
-      --accent: #ffffff;
-      --accent-blue: #e6e2d3;
-      --accent-blue-2: #f0ece4;
-      --accent-warm: #e6e2d3;
     }
 
-    * { box-sizing: border-box; }
-    html, body, #root { margin: 0; padding: 0; background: #000; }
-    body {
-      background: #000;
-      color: var(--color-text-primary);
-      font-family: 'JetBrains Mono', monospace;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #fff;
+      color: #000;
+      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
       font-weight: 400;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       overflow: hidden;
     }
-    button { font-family: inherit; }
 
-    .font-display { font-family: 'Druk Cond Super', sans-serif; font-weight: 950; }
-    .font-block   { font-family: 'Druk Cond Super', sans-serif; font-weight: 950; letter-spacing: -0.02em; }
-    .font-mono    { font-family: 'JetBrains Mono', monospace; }
+    #root { width: 100%; height: 100%; }
+    button { cursor: pointer; background: transparent; border: 0; padding: 0; font-family: inherit; }
 
-    .label-eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-    }
-
-    /* ── Film grain ────────────────────────────────────────── */
-    .grain::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.065;
-      mix-blend-mode: overlay;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1   0 0 0 0 1   0 0 0 0 1   0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.55'/></svg>");
-      z-index: 5;
-    }
-
-    /* ── Hero nav ──────────────────────────────────────────── */
-    .hero-nav {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: clamp(32px, 7.9vw, 120px);
-      padding-top: 52px;
-      z-index: 10;
-    }
-    .hero-nav-item {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 14px;
-      font-weight: 400;
-      color: #fff;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      background: transparent;
-      border: 0;
-      padding: 0;
-      transition: opacity 0.2s;
-    }
-    .hero-nav-item:hover { opacity: 0.6; }
-
-    /* ── Hero headline — image mask through text ───────────── */
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background-size: cover;
-      background-position: center;
-    }
-    .hero-logo-wrap {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .hero-logo {
-      width: clamp(280px, 72vw, 1100px);
-      height: auto;
-      display: block;
-    }
-    @media (max-width: 768px) {
-      .hero-nav { gap: clamp(20px, 5vw, 60px); padding-top: 32px; }
-      .hero-nav-item { font-size: 11px; }
-    }
-
-    /* ── Misc ──────────────────────────────────────────────── */
-
-
-    /* ── Panel scrollbar ───────────────────────────────────── */
-    .panel-scroll::-webkit-scrollbar { width: 4px; }
-    .panel-scroll::-webkit-scrollbar-track { background: transparent; }
-    .panel-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); }
-
-    /* ── Services accordion ────────────────────────────────── */
-    .svc-acc-name {
-      font-family: 'Graphik Bold', sans-serif;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      text-transform: uppercase;
-      font-size: clamp(28px, 4.6vw, 52px);
-      line-height: 1;
-      color: #fff;
-      transition: transform 0.35s cubic-bezier(0.76,0,0.24,1);
-    }
-
-    /* ── Case cards ────────────────────────────────────────── */
-    .case-card {
-      background: var(--color-surface);
-      border: 1px solid rgba(255,255,255,0.06);
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      transition: all 0.25s cubic-bezier(0.25,0.46,0.45,0.94);
-    }
-
-    .brand-slot {
-      width: 60px; height: 24px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.1);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 8px; letter-spacing: 0.15em; color: rgba(255,255,255,0.45);
-      font-family: 'JetBrains Mono', monospace;
-      flex-shrink: 0;
-    }
-    .case-title {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 400;
-      letter-spacing: -0.01em;
-      font-size: 15px;
-      color: #fff;
-      line-height: 1.15;
-      margin: 16px 0 0;
-    }
-    .metric-pill { flex: 1; }
-    .metric-val  { font-size: 16px; font-weight: 500; color: #fff; }
-    .metric-lbl  {
-      font-size: 9px; letter-spacing: 0.12em; color: rgba(255,255,255,0.4);
-      margin-top: 4px; text-transform: uppercase;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .case-cta {
-      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
-      color: rgba(255,255,255,0.3); margin-top: 16px;
-      transition: all 0.2s; font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* ── Brand partner slots ───────────────────────────────── */
-    .partner-slot {
-      width: 120px; height: 40px; flex-shrink: 0;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.03);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 9px; letter-spacing: 0.18em; color: rgba(255,255,255,0.25);
-      text-transform: uppercase; font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* ── Infinite slider ──────────────────────────────────── */
-    @keyframes infinite-scroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-    .infinite-slider-track {
-      display: flex;
-      align-items: center;
-      width: max-content;
-      will-change: transform;
-      animation: infinite-scroll linear infinite;
-    }
-
-    /* ── Service pill tags ─────────────────────────────────── */
-    .svc-pill {
-      border: 1px solid rgba(255,255,255,0.15);
-      padding: 6px 16px;
-      font-size: 10px; letter-spacing: 0.15em;
-      text-transform: uppercase; color: rgba(255,255,255,0.7);
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* ── Contact form modal ────────────────────────────────── */
-    .contact-input {
-      width: 100%; background: transparent; border: 0;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-      color: #fff; font-family: 'JetBrains Mono', monospace;
-      font-size: 15px; font-weight: 400; padding: 14px 0; outline: none;
-      transition: border-color 0.2s;
-    }
-    .contact-input:focus { border-color: rgba(255,255,255,0.6); }
-    .contact-input::placeholder { color: rgba(255,255,255,0.2); }
-    .contact-textarea { resize: none; min-height: 100px; }
-    .contact-label {
-      display: block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px; letter-spacing: 0.18em;
-      text-transform: uppercase; color: rgba(255,255,255,0.4);
-      margin-bottom: 4px;
-    }
-    .contact-submit {
-      background: transparent; border: 1px solid rgba(255,255,255,0.25);
-      color: #fff; font-family: 'Druk Cond Super', sans-serif;
-      font-weight: 900; font-size: 22px; letter-spacing: 0.06em;
-      text-transform: uppercase; padding: 18px 48px;
-      transition: background 0.2s, border-color 0.2s;
-    }
-    .contact-submit:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.5); }
-
-    /* ── Section spacing ───────────────────────────────────── */
-    .section-spacer { margin-top: 96px; }
-    @media (max-width: 768px) {
-      .section-spacer { margin-top: 64px; }
-      .case-grid { grid-template-columns: 1fr !important; }
-      .panel-header { padding: 16px 20px !important; }
-      .panel-content { padding: 40px 20px 64px !important; }
-    }
-    @media (min-width: 769px) and (max-width: 1024px) {
-      .case-grid { grid-template-columns: repeat(2, 1fr) !important; }
-    }
-    @media (max-width: 480px) {
-      /* Accordion — collapse wide left column */
-      .acc-btn  { grid-template-columns: 32px 1fr auto !important; gap: 10px !important; padding: 18px 0 !important; }
-      .acc-body { grid-template-columns: 32px 1fr !important; gap: 10px !important; }
-      /* Case study modal */
-      .case-modal-inner  { padding: 24px 18px !important; }
-      .case-modal-title  { font-size: clamp(20px, 5.5vw, 30px) !important; margin-top: 12px !important; }
-      .case-results-grid { gap: 12px !important; }
-      .case-metric-big   { font-size: 34px !important; }
-      /* Panel footer */
-      .panel-footer { margin-top: 48px !important; }
-      /* Contact modal */
-      .contact-modal { padding: 24px 20px !important; }
-    }
-
-    /* ── Reduced motion ────────────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -297,161 +41,61 @@
 <body>
   <div id="root"></div>
 
-  <!-- React 18 -->
   <script crossorigin src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
-
-  <!-- Framer Motion 10 -->
   <script src="https://unpkg.com/framer-motion@10.18.0/dist/framer-motion.js"></script>
-
-  <!-- Babel (JSX in-browser transform) -->
   <script src="https://unpkg.com/@babel/standalone@7.23.9/babel.min.js"></script>
 
-  <!-- ── Site content ───────────────────────────────────────── -->
-  <script>
-    window.SITE_CONTENT = {
-      brand: {
-        name:       "THE DIGITAL SCENE",
-        tagline:    "WHERE CULTURE MEETS INFLUENCE",
-        discipline: "INFLUENCER MARKETING & TALENT MANAGEMENT",
-        est:        "EST. 2024",
-      },
-      services: {
-        brands:   ["Creator Partnerships", "Campaign Strategy", "Cultural Marketing"],
-        creators: ["Talent Management", "Brand Partnerships", "Content Strategy"],
-      },
-      caseStudies: [
-        {
-          id: "cs-1", brand: "STRT/CO.", title: "Global Streetwear Creator Campaign",
-          metrics: [{ value: "25+", label: "Creators" }, { value: "40+", label: "Posts" }, { value: "32M+", label: "Views" }],
-          overview: "A multi-region launch activation pairing twenty-five creators across four continents with a heritage streetwear label. Storytelling led with documentary-style content, paid amplification and a closing capsule drop.",
-          services: ["Creator Sourcing", "Campaign Strategy", "Production", "Paid Media"],
-        },
-        {
-          id: "cs-2", brand: "MAISON N.", title: "Fashion Week Digital Activation",
-          metrics: [{ value: "12", label: "Creators" }, { value: "28", label: "Posts" }, { value: "18M+", label: "Impressions" }],
-          overview: "Front-row coverage and behind-the-curtain access for an emerging Parisian house. Curated talent list, on-the-ground content team and a same-day cutdown engine to keep the feed alive through show week.",
-          services: ["Talent Curation", "Content Strategy", "Live Coverage"],
-        },
-        {
-          id: "cs-3", brand: "POLAR/FM", title: "Music Artist Brand Partnership",
-          metrics: [{ value: "8", label: "Creators" }, { value: "20", label: "Posts" }, { value: "9M+", label: "Views" }],
-          overview: "An artist-first integration tying a global audio brand to the rollout of an EP. Long-form interviews, short-form trend bait and a creator-led listening party rolled into a single twelve-week sprint.",
-          services: ["Brand Negotiation", "Content Strategy", "Activation"],
-        },
-      ],
-      partners: ["NORTH/CO", "MAISON N.", "STRT/CO.", "POLAR/FM", "ATLAS LAB", "VICE.D"],
-    };
-  </script>
-
-  <!-- ── App ─────────────────────────────────────────────────── -->
   <script type="text/babel" data-presets="react">
-    const { useState, useEffect, useRef } = React;
+    const { useState, useEffect } = React;
     const FM = window.framerMotion || window.Motion || window.motion;
-    const { motion, AnimatePresence, useMotionValue, animate: fmAnimate } = FM;
+    const { motion, AnimatePresence } = FM;
 
-    const C = window.SITE_CONTENT;
-    const EASE_OUT   = [0.25, 0.46, 0.45, 0.94];
-    const EASE_PANEL = [0.76, 0, 0.24, 1];
+    const EASE = [0.25, 0.46, 0.45, 0.94];
 
-    /* ─── TextScramble ──────────────────────────────────────── */
-    const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    function TextScramble({ children, duration = 0.7, speed = 0.035, trigger = true, onDone, className, style }) {
-      const [out, setOut] = useState(children);
-      const busy = useRef(false);
-      useEffect(() => {
-        if (!trigger || busy.current) return;
-        busy.current = true;
-        const text  = children;
-        const steps = Math.max(1, duration / speed);
-        let step = 0;
-        const iv = setInterval(() => {
-          const p = step / steps;
-          let s = "";
-          for (let i = 0; i < text.length; i++) {
-            if (text[i] === " ") { s += " "; continue; }
-            s += p * text.length > i ? text[i] : CHARS[Math.floor(Math.random() * CHARS.length)];
-          }
-          setOut(s);
-          if (++step > steps) {
-            clearInterval(iv);
-            setOut(text);
-            busy.current = false;
-            onDone && onDone();
-          }
-        }, speed * 1000);
-        return () => { clearInterval(iv); busy.current = false; };
-      }, [trigger, children]);
-      return <span className={className} style={style}>{out}</span>;
-    }
-
-    /* ─── Reveal (scroll-triggered fade-up) ─────────────────── */
-    function Reveal({ children, delay = 0, className, style }) {
-      const ref    = useRef(null);
-      const inView = FM.useInView(ref, { once: true, margin: "0px 0px -60px 0px" });
+    /* ── Plus / minus toggle ───────────────────────────────── */
+    function ToggleBtn({ open, onClick }) {
       return (
-        <motion.div ref={ref} className={className} style={style}
-          initial={{ opacity: 0, y: 24 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-          transition={{ duration: 0.65, delay, ease: EASE_OUT }}
-        >
-          {children}
-        </motion.div>
-      );
-    }
-
-    /* ─── MagneticBtn ───────────────────────────────────────── */
-    function MagneticBtn({ children, className, onClick, style }) {
-      const x   = FM.useMotionValue(0);
-      const y   = FM.useMotionValue(0);
-      const sx  = FM.useSpring(x, { stiffness: 350, damping: 22 });
-      const sy  = FM.useSpring(y, { stiffness: 350, damping: 22 });
-      const ref = useRef(null);
-      const onMove  = e => {
-        const r = ref.current.getBoundingClientRect();
-        x.set((e.clientX - (r.left + r.width  / 2)) * 0.25);
-        y.set((e.clientY - (r.top  + r.height / 2)) * 0.25);
-      };
-      const onLeave = () => { x.set(0); y.set(0); };
-      return (
-        <motion.button ref={ref} className={className} style={{ ...style, x: sx, y: sy }}
-          onMouseMove={onMove} onMouseLeave={onLeave}
-          whileTap={{ scale: 0.96 }}
+        <button
           onClick={onClick}
+          aria-label={open ? 'Close contact' : 'Open contact'}
+          style={{
+            position: 'fixed',
+            top: 36,
+            right: 44,
+            zIndex: 400,
+            width: 40,
+            height: 40,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          {children}
-        </motion.button>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={open ? 'minus' : 'plus'}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.18 }}
+              style={{
+                fontSize: 28,
+                lineHeight: 1,
+                color: '#000',
+                fontWeight: 300,
+                userSelect: 'none',
+                display: 'block',
+              }}
+            >
+              {open ? '−' : '+'}
+            </motion.span>
+          </AnimatePresence>
+        </button>
       );
     }
 
-
-    /* ─── Custom cursor ─────────────────────────────────────── */
-
-    /* ─── Contact modal ─────────────────────────────────────── */
-    function ContactModal({ open, onClose }) {
-      const [form, setForm] = useState({ name: "", email: "", message: "" });
-      const [sent, setSent] = useState(false);
-
-      useEffect(() => {
-        if (!open) { setSent(false); setForm({ name: "", email: "", message: "" }); }
-      }, [open]);
-      useEffect(() => {
-        const fn = e => { if (e.key === "Escape") onClose(); };
-        if (open) window.addEventListener("keydown", fn);
-        return () => window.removeEventListener("keydown", fn);
-      }, [open, onClose]);
-
-      const wordStyle = {
-        fontFamily: "'Graphik Bold', sans-serif",
-        fontWeight: 700,
-        fontSize: "clamp(48px, 9vw, 130px)",
-        lineHeight: 0.88,
-        textTransform: "uppercase",
-        color: "#fff",
-        letterSpacing: "-0.03em",
-        margin: 0,
-      };
-
+    /* ── Contact overlay ────────────────────────────────────── */
+    function Contact({ open }) {
       return (
         <AnimatePresence>
           {open && (
@@ -459,539 +103,116 @@
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              style={{ position: "fixed", inset: 0, zIndex: 200, background: "#000", display: "flex", alignItems: "center", justifyContent: "center", padding: "48px 64px", overflow: "hidden" }}
+              transition={{ duration: 0.38, ease: EASE }}
+              style={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 300,
+                background: '#fff',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                padding: 'clamp(32px, 4vw, 52px)',
+              }}
             >
-              <button
-                onClick={onClose}
-                style={{ position: "fixed", top: 36, right: 44, background: "transparent", border: 0, color: "rgba(255,255,255,0.35)", fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", padding: 0, transition: "color 0.2s" }}
-                onMouseEnter={e => e.currentTarget.style.color = "#fff"}
-                onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.35)"}
-              >ESC</button>
+              {/* Descriptor */}
+              <p style={{
+                fontSize: 'clamp(11px, 1.1vw, 15px)',
+                letterSpacing: '0.01em',
+                textTransform: 'uppercase',
+                lineHeight: 1.4,
+                color: '#000',
+                maxWidth: 560,
+              }}>
+                The Digital Scene is an influencer marketing &amp; talent management agency
+              </p>
 
-              <motion.div
-                initial={{ opacity: 0, y: 32 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 32 }}
-                transition={{ duration: 0.4, ease: EASE_OUT, delay: 0.05 }}
-                style={{ width: "100%", maxWidth: 1100, display: "flex", alignItems: "flex-start", gap: "clamp(40px, 6vw, 96px)" }}
-              >
-                {/* Left: one word per line, tight stack */}
-                <div style={{ display: "flex", flexDirection: "column", gap: 0, flexShrink: 0 }}>
-                  {["JOIN", "THE", "SCENE"].map(w => (
-                    <h2 key={w} style={wordStyle}>{w}</h2>
-                  ))}
-                </div>
+              {/* Contact details */}
+              <div style={{
+                fontSize: 'clamp(20px, 2.6vw, 32px)',
+                lineHeight: 1.65,
+                color: '#000',
+              }}>
+                <p>
+                  224 Shoreditch High Street<br />
+                  London, United Kingdom E1 6PJ
+                </p>
+                <br />
+                <p>
+                  hello@thedigitalscene.com<br />
+                  <a
+                    href="https://www.instagram.com/the.digital.scene/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: '#000', textDecoration: 'none' }}
+                    onMouseEnter={e => e.currentTarget.style.opacity = '0.45'}
+                    onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+                  >
+                    Instagram
+                  </a>
+                </p>
+              </div>
 
-                {/* Right: form */}
-                <div style={{ flex: 1, minWidth: 0, maxWidth: 440 }}>
-                  {!sent ? (
-                    <form onSubmit={async e => { e.preventDefault(); const res = await fetch("https://formspree.io/f/xgodqwok", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(form) }); if (res.ok) setSent(true); }}>
-                      <div style={{ marginBottom: 20 }}>
-                        <label className="contact-label">Name *</label>
-                        <input className="contact-input" placeholder="John Smith" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} required />
-                      </div>
-                      <div style={{ marginBottom: 20 }}>
-                        <label className="contact-label">Email *</label>
-                        <input className="contact-input" type="email" placeholder="contact@gmail.com" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} required />
-                      </div>
-                      <div style={{ marginBottom: 28 }}>
-                        <label className="contact-label">Message *</label>
-                        <textarea className="contact-input contact-textarea" placeholder="Project inquiry…" value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} required />
-                      </div>
-                      <button className="contact-submit" type="submit">Send Message</button>
-                      <div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.08)", display: "flex", flexDirection: "column", gap: 8 }}>
-                        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.12em", color: "rgba(255,255,255,0.45)" }}>hello@thedigitalscene.com</div>
-                        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.12em", color: "rgba(255,255,255,0.3)", lineHeight: 1.6 }}>224 Shoreditch High Street<br />London, United Kingdom E1 6PJ</div>
-                      </div>
-                    </form>
-                  ) : (
-                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-                      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.2em", color: "rgba(255,255,255,0.5)", textTransform: "uppercase", marginBottom: 20 }}>✓ Message received</div>
-                      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.8, margin: 0 }}>
-                        Thanks {form.name || "—"}. We'll be back in touch within 48 hours.
-                      </p>
-                    </motion.div>
-                  )}
-                </div>
-              </motion.div>
+              {/* Footer */}
+              <p style={{
+                fontSize: 11,
+                color: 'rgba(0,0,0,0.35)',
+                letterSpacing: '0.04em',
+              }}>
+                © The Digital Scene 2026
+              </p>
             </motion.div>
           )}
         </AnimatePresence>
       );
     }
 
-
-    /* ─── Hero ──────────────────────────────────────────────── */
-    function HeroSection({ onOpenPanel, onOpenContact }) {
-      const SCENES = [
-        './scene-1.jpg',
-        './scene-2.jpg',
-        './scene-3.jpg',
-        './scene-4.jpg',
-        './scene-5.jpg',
-        './scene-6.jpg',
-        './scene-7.jpg',
-        './scene-8.jpg',
-        // scenes 9-11 will be added once Figma API rate limit resets
-      ];
-      const [sceneIdx, setSceneIdx] = React.useState(0);
-
-      // Preload images
-      React.useEffect(() => {
-        SCENES.forEach(src => { const img = new Image(); img.src = src; });
-      }, []);
-
-      // Cycle images every 400ms — hard cut, no transition
-      React.useEffect(() => {
-        const id = setInterval(() => setSceneIdx(i => (i + 1) % SCENES.length), 400);
-        return () => clearInterval(id);
-      }, []);
-
-      return (
-        <section style={{ position: "fixed", inset: 0, height: "100dvh", overflow: "hidden", background: "#000" }}>
-          {/* Nav */}
-          <nav className="hero-nav">
-            <button className="hero-nav-item" onClick={() => onOpenPanel("brands")}>For Brands</button>
-            <button className="hero-nav-item" onClick={() => onOpenPanel("creators")}>For Talent</button>
-            <button className="hero-nav-item" onClick={onOpenContact}>Contact</button>
-          </nav>
-
-          {/* Cycling background */}
-          <div
-            className="hero-bg"
-            style={{ backgroundImage: `url('${SCENES[sceneIdx]}')` }}
-          />
-
-          {/* Top scrim — masks any bright image content above the nav */}
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 120, background: "linear-gradient(to bottom, #000 0%, transparent 100%)", zIndex: 9, pointerEvents: "none" }} />
-        </section>
-      );
-    }
-
-
-    /* ─── Services accordion ────────────────────────────────── */
-    const SERVICE_DETAILS = {
-      "Creator Partnerships": "Connecting brands with the creators shaping culture.",
-      "Campaign Strategy":    "Building creator-led campaigns with a focus on ideas, not just execution.",
-      "Cultural Marketing":   "Helping brands show up inside culture, not outside of it.",
-      "Talent Management":    "Management focused on positioning, growth, and the right opportunities.",
-      "Brand Partnerships":   "Connecting creators with brands that fit their audience and identity.",
-      "Content Strategy":     "Shaping how creators show up across platforms and culture.",
-    };
-
-    function ServicesAccordion({ items }) {
-      const [open, setOpen] = useState(null);
-      return (
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-          {items.map((s, i) => {
-            const isOpen = open === i;
-            return (
-              <motion.div
-                key={s}
-                initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 + i * 0.06, duration: 0.5, ease: EASE_OUT }}
-                style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
-              >
-                <button
-                  onClick={() => setOpen(isOpen ? null : i)}
-                  className="acc-btn" style={{ width: "100%", display: "grid", gridTemplateColumns: "80px 1fr auto", alignItems: "center", gap: 16, padding: "28px 0", background: "transparent", border: 0, textAlign: "left", color: "#fff" }}
-                >
-                  <span className="font-mono" style={{ fontSize: 11, letterSpacing: "0.18em", color: isOpen ? "var(--accent-blue-2)" : "rgba(255,255,255,0.3)", transition: "color 0.25s" }}>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="svc-acc-name" style={{ transform: isOpen ? "translateX(8px)" : "translateX(0)" }}>
-                    {s}
-                  </span>
-                  {/* +/× toggle */}
-                  <span style={{ width: 36, height: 36, border: "1px solid", display: "inline-flex", alignItems: "center", justifyContent: "center", position: "relative", background: isOpen ? "var(--accent-blue)" : "transparent", borderColor: isOpen ? "var(--accent-blue-2)" : "rgba(255,255,255,0.2)", transition: "all 0.3s ease", flexShrink: 0 }}>
-                    <span style={{ width: 14, height: 1, background: isOpen ? "#0a0a0a" : "#fff", position: "absolute" }} />
-                    <span style={{ width: 14, height: 1, background: isOpen ? "#0a0a0a" : "#fff", position: "absolute", transform: isOpen ? "rotate(0deg)" : "rotate(90deg)", transition: "transform 0.35s cubic-bezier(0.76,0,0.24,1)" }} />
-                  </span>
-                </button>
-
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      key="body"
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.45, ease: EASE_PANEL }}
-                      style={{ overflow: "hidden" }}
-                    >
-                      <div className="acc-body" style={{ display: "grid", gridTemplateColumns: "80px 1fr", gap: 16, padding: "0 0 32px" }}>
-                        <span />
-                        <p style={{ maxWidth: 560, fontSize: 15, lineHeight: 1.7, color: "rgba(255,255,255,0.65)", margin: 0, fontWeight: 400 }}>
-                          {SERVICE_DETAILS[s] || ""}
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            );
-          })}
-        </div>
-      );
-    }
-
-    /* ─── MUBI logo SVG ────────────────────────────────────── */
-    function MubiLogo({ uid = "0" }) {
-      return (
-        <img src="./Brand-logos/mubi.png" alt="MUBI" style={{ display: "block", height: 14, width: "auto", filter: "brightness(0) invert(1)", opacity: 0.8 }} />
-      );
-    }
-
-    /* ─── Case study grid ───────────────────────────────────── */
-    const POSTERS = {
-      "cs-1": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=70",
-      "cs-2": "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1200&q=70",
-      "cs-3": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=70",
-    };
-
-    const BRAND_LOGO_MAP = {
-      "STRT/CO.":  "mubi.png",
-      "MAISON N.": "loreal.png",
-      "POLAR/FM":  "opera.png",
-    };
-
-    function CaseStudyCard({ cs, onOpen }) {
-      const [hovered, setHovered] = useState(false);
-      const isMubi = cs.id === "cs-1";
-      return (
-        <div
-          className="case-card"
-          onClick={() => onOpen(cs)}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        >
-          {/* Brand logo above thumbnail */}
-          {isMubi && (
-            <div style={{ marginBottom: 10 }}>
-              <MubiLogo uid="card1" />
-            </div>
-          )}
-
-          {/* Thumbnail */}
-          <div style={isMubi ? { display: "flex", justifyContent: "center" } : {}}>
-          <div style={{ position: "relative", aspectRatio: isMubi ? "9/16" : "16/9", background: "#000", overflow: "hidden", border: "1px solid rgba(255,255,255,0.1)", ...(isMubi ? { width: 150, flexShrink: 0 } : {}) }}>
-            {isMubi ? (
-              <>
-                <video
-                  src="./Brands-work/Mubi Oscars TikTok.mp4"
-                  muted playsInline preload="metadata"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", filter: "blur(1.5px) brightness(0.7)" }}
-                />
-                {/* Dark overlay on thumbnail */}
-                <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.35)", pointerEvents: "none" }} />
-              </>
-            ) : (
-              <>
-                <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${POSTERS[cs.id]})`, backgroundSize: "cover", backgroundPosition: "center" }} />
-                <div style={{ position: "absolute", top: 10, right: 12 }}>
-                  <img
-                    src={`./brand-logos/${BRAND_LOGO_MAP[cs.brand] || "squarespace.png"}`}
-                    alt={cs.brand}
-                    style={{ height: 14, width: "auto", display: "block", filter: "brightness(0) invert(1)", opacity: 0.55, userSelect: "none", pointerEvents: "none" }}
-                  />
-                </div>
-              </>
-            )}
-          </div>
-          </div>
-
-          <div style={{ display: "flex", gap: 16, marginTop: 16, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-            {cs.metrics.map(m => (
-              <div key={m.label} className="metric-pill">
-                <div className="metric-val">{m.value}</div>
-                <div className="metric-lbl">{m.label}</div>
-              </div>
-            ))}
-          </div>
-          <div className="case-cta" style={{ color: hovered ? "#fff" : "rgba(255,255,255,0.3)", transition: "color 0.2s" }}>See More</div>
-        </div>
-      );
-    }
-
-    function CaseStudyGrid({ onOpen }) {
-      return (
-        <div className="case-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 1, background: "rgba(255,255,255,0.06)" }}>
-          {C.caseStudies.map((cs, i) => <CaseStudyCard key={cs.id} cs={cs} idx={i} onOpen={onOpen} />)}
-        </div>
-      );
-    }
-
-    /* ─── InfiniteSlider ────────────────────────────────────── */
-    function InfiniteSlider({ children, gap = 16, duration = 25, reverse = false }) {
-      const items = React.Children.toArray(children);
-      return (
-        <div style={{ overflow: "hidden", width: "100%" }}>
-          <div
-            className="infinite-slider-track"
-            style={{
-              animationDuration: `${duration}s`,
-              animationDirection: reverse ? "reverse" : "normal",
-            }}
-          >
-            {items.map((child, i) => (
-              <div key={`a-${i}`} style={{ flexShrink: 0, paddingRight: `${gap}px` }}>{child}</div>
-            ))}
-            {items.map((child, i) => (
-              <div key={`b-${i}`} style={{ flexShrink: 0, paddingRight: `${gap}px` }}>{child}</div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
-    /* ─── ProgressiveBlur ───────────────────────────────────── */
-    function ProgressiveBlur({ direction = "left", blurLayers = 8, blurIntensity = 1, style }) {
-      const ANGLES = { top: 0, right: 90, bottom: 180, left: 270 };
-      const layers  = Math.max(blurLayers, 2);
-      const segSize = 1 / (blurLayers + 1);
-      const angle   = ANGLES[direction] ?? 270;
-      return (
-        <div style={{ position: "absolute", pointerEvents: "none", ...style }}>
-          {Array.from({ length: layers }).map((_, i) => {
-            const stops = [i, i + 1, i + 2, i + 3]
-              .map(n => n * segSize)
-              .map((pos, pi) =>
-                `rgba(255,255,255,${pi === 1 || pi === 2 ? 1 : 0}) ${(pos * 100).toFixed(1)}%`
-              );
-            const grad = `linear-gradient(${angle}deg, ${stops.join(", ")})`;
-            return (
-              <div
-                key={i}
-                style={{
-                  position: "absolute", inset: 0,
-                  maskImage: grad,
-                  WebkitMaskImage: grad,
-                  backdropFilter: `blur(${(i * blurIntensity).toFixed(2)}px)`,
-                }}
-              />
-            );
-          })}
-        </div>
-      );
-    }
-
-    /* ─── BrandLogosSlider ──────────────────────────────────── */
-    const BRAND_LOGOS = [
-      { name: "MUBI",           file: "mubi.png" },
-      { name: "Squarespace",    file: "squarespace.png" },
-      { name: "Raycon",         file: "raycon.png" },
-      { name: "Netflix",        file: "netflix.png" },
-      { name: "Henson Shaving", file: "hensonshaving.png" },
-      { name: "Apple TV",       file: "appletv.png" },
-      { name: "ExpressVPN",     file: "expressvpn.png" },
-      { name: "L'Oréal",        file: "loreal.png" },
-      { name: "Opera",          file: "opera.png" },
-      { name: "Skillshare",     file: "skillshare.png" },
-    ];
-
-    function BrandLogosSlider() {
-      return (
-        <div style={{ width: "100%", overflow: "hidden" }}>
-          <InfiniteSlider duration={45} gap={64}>
-            {BRAND_LOGOS.map((brand, i) => (
-              <img
-                key={i}
-                src={`./brand-logos/${brand.file}`}
-                alt={brand.name}
-                style={{ height: 28, width: "auto", display: "block", opacity: 0.45, filter: "brightness(0) invert(1)", userSelect: "none", pointerEvents: "none" }}
-              />
-            ))}
-          </InfiniteSlider>
-        </div>
-      );
-    }
-
-    /* ─── Brand partners ────────────────────────────────────── */
-    function BrandPartners() {
-      return (
-        <div style={{ display: "flex", gap: 1, overflowX: "auto", paddingBottom: 4, background: "rgba(255,255,255,0.06)" }}>
-          {C.partners.map(p => <div key={p} className="partner-slot">{p}</div>)}
-        </div>
-      );
-    }
-
-    /* ─── Case study modal ──────────────────────────────────── */
-    function CaseStudyModal({ cs, onClose }) {
-      useEffect(() => {
-        const fn = e => { if (e.key === "Escape") onClose(); };
-        window.addEventListener("keydown", fn);
-        return () => window.removeEventListener("keydown", fn);
-      }, [onClose]);
-
-      return (
-        <AnimatePresence>
-          {cs && (
-            <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              onClick={onClose}
-              style={{ position: "fixed", inset: 0, zIndex: 100, background: "rgba(0,0,0,0.86)", display: "flex", alignItems: "center", justifyContent: "center", padding: "5vh 4vw" }}
-            >
-              <motion.div
-                onClick={e => e.stopPropagation()}
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.3, ease: EASE_OUT }}
-                className="grain case-modal-inner" style={{ position: "relative", width: "min(800px,90vw)", maxHeight: "85vh", overflowY: "auto", background: "#111", border: "1px solid rgba(255,255,255,0.1)", padding: 48 }}
-              >
-                <button
-                  onClick={onClose}
-                  aria-label="Close"
-                  style={{ position: "absolute", top: 16, right: 20, background: "transparent", border: 0, color: "rgba(255,255,255,0.5)", fontSize: 22, fontWeight: 300, lineHeight: 1, padding: 8 }}
-                  onMouseEnter={e => e.currentTarget.style.color = "#fff"}
-                  onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.5)"}
-                >×</button>
-
-                {/* Media */}
-                <div style={{ display: "flex", justifyContent: "center", marginBottom: 32 }}>
-                <div style={{ ...(cs.id === "cs-1" ? { width: 260, aspectRatio: "9/16" } : { width: "100%", aspectRatio: "16/9" }), background: "#000", position: "relative", overflow: "hidden" }}>
-                  {cs.id === "cs-1"
-                    ? <video
-                        src="./Brands-work/Mubi Oscars TikTok.mp4"
-                        autoPlay playsInline controls
-                        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-                      />
-                    : cs.youtube
-                      ? <iframe
-                          src={`https://www.youtube.com/embed/${cs.youtube}?autoplay=0&rel=0`}
-                          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        />
-                      : <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${POSTERS[cs.id]})`, backgroundSize: "cover", backgroundPosition: "center" }} />
-                  }
-                </div>
-                </div>
-
-                <img
-                  src={`./brand-logos/${BRAND_LOGO_MAP[cs.brand] || "squarespace.png"}`}
-                  alt={cs.brand}
-                  style={{ height: 20, width: "auto", display: "block", filter: "brightness(0) invert(1)", opacity: 0.5, marginBottom: 16 }}
-                />
-                <h2 className="case-modal-title" style={{ fontSize: 40, margin: "0 0 0", color: "#fff", lineHeight: 1.1 }}>{cs.title}</h2>
-                <hr style={{ border: 0, borderTop: "1px solid rgba(255,255,255,0.08)", margin: "24px 0" }} />
-
-                <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.4)", marginBottom: 16 }}>Overview</div>
-                <p style={{ fontSize: 14, lineHeight: 1.8, color: "rgba(255,255,255,0.65)", margin: 0, fontWeight: 300 }}>{cs.overview}</p>
-
-                <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.4)", marginTop: 36, marginBottom: 16 }}>Results</div>
-                <div className="case-results-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
-                  {cs.metrics.map(m => (
-                    <div key={m.label}>
-                      <div className="font-display case-metric-big" style={{ fontSize: 64, lineHeight: 1, color: "#fff" }}>{m.value}</div>
-                      <div className="metric-lbl" style={{ marginTop: 8 }}>{m.label}</div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      );
-    }
-
-    /* ─── Overlay panel ─────────────────────────────────────── */
-    function OverlayPanel({ type, onClose }) {
-      const [activeCS, setActiveCS] = useState(null);
-      const services = type === "brands" ? C.services.brands : C.services.creators;
-      const title    = type === "brands" ? "For Brands" : "For Talent";
-
-      return (
-        <motion.div
-          initial={{ height: 0 }}
-          animate={{ height: "100dvh" }}
-          exit={{ height: 0 }}
-          transition={{ duration: 0.55, ease: EASE_PANEL }}
-          style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 50, background: "#000", overflow: "hidden" }}
-        >
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            transition={{ delay: 0.4, duration: 0.4 }}
-            className="grain panel-scroll"
-            style={{ position: "absolute", inset: 0, overflowY: "auto" }}
-          >
-            {/* Sticky header */}
-            <div
-              className="panel-header"
-              style={{ position: "sticky", top: 0, zIndex: 5, background: "rgba(0,0,0,0.92)", backdropFilter: "blur(8px)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "24px 48px", display: "flex", justifyContent: "space-between", alignItems: "center" }}
-            >
-              <span className="label-eyebrow" style={{ color: "rgba(255,255,255,0.4)" }}>{title}</span>
-              <button
-                onClick={onClose}
-                aria-label="Close"
-                style={{ justifySelf: "end", background: "transparent", border: 0, color: "rgba(255,255,255,0.5)", fontSize: 22, fontWeight: 300, lineHeight: 1, padding: 8 }}
-                onMouseEnter={e => e.currentTarget.style.color = "#fff"}
-                onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.5)"}
-              >×</button>
-            </div>
-
-            {/* Body */}
-            <div className="panel-content" style={{ maxWidth: 1200, margin: "0 auto", padding: "64px 48px 96px" }}>
-              <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.3)", marginBottom: 32 }}>What We Do</div>
-              <ServicesAccordion items={services} />
-
-              {type === "brands" && (
-                <>
-                  <div className="section-spacer" />
-                  <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.3)", marginBottom: 24 }}>Work</div>
-                  <CaseStudyGrid onOpen={setActiveCS} />
-                </>
-              )}
-
-              {type === "creators" && (
-                <>
-                  <div className="section-spacer" />
-                  <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.3)", marginBottom: 56 }}>Brand Partners</div>
-                  <BrandLogosSlider />
-                </>
-              )}
-
-              {/* Panel footer */}
-              <div className="panel-footer" style={{ marginTop: 96, paddingTop: 32, borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-                <span style={{ fontSize: 9, letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>© The Digital Scene</span>
-              </div>
-            </div>
-
-            <CaseStudyModal cs={activeCS} onClose={() => setActiveCS(null)} />
-          </motion.div>
-        </motion.div>
-      );
-    }
-
-    /* ─── App root ──────────────────────────────────────────── */
+    /* ── App ────────────────────────────────────────────────── */
     function App() {
-      const [panel,       setPanel]       = useState(null);
-      const [contactOpen, setContactOpen] = useState(false);
-
-      const closePanel = () => setPanel(null);
+      const [open, setOpen] = useState(false);
 
       useEffect(() => {
-        const fn = e => { if (e.key === "Escape" && panel) closePanel(); };
-        window.addEventListener("keydown", fn);
-        return () => window.removeEventListener("keydown", fn);
-      }, [panel]);
+        const fn = e => { if (e.key === 'Escape' && open) setOpen(false); };
+        window.addEventListener('keydown', fn);
+        return () => window.removeEventListener('keydown', fn);
+      }, [open]);
 
       return (
         <>
-          <HeroSection onOpenPanel={setPanel} onOpenContact={() => setContactOpen(true)} />
-          {/* Instant black backdrop — covers hero the moment a panel starts opening */}
-          {(panel || contactOpen) && <div style={{ position: "fixed", inset: 0, background: "#000", zIndex: 49 }} />}
-          <AnimatePresence>
-            {panel && <OverlayPanel key={panel} type={panel} onClose={closePanel} />}
-          </AnimatePresence>
-          <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
+          {/* Home */}
+          <div style={{
+            position: 'fixed',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: '#fff',
+          }}>
+            <h1 style={{
+              fontFamily: "'Druk Cond Super', sans-serif",
+              fontWeight: 900,
+              fontSize: 'clamp(80px, 18vw, 280px)',
+              lineHeight: 1,
+              color: '#000',
+              textTransform: 'uppercase',
+              letterSpacing: '-0.01em',
+              margin: 0,
+              userSelect: 'none',
+            }}>
+              THE SCENE
+            </h1>
+          </div>
+
+          {/* Toggle */}
+          <ToggleBtn open={open} onClick={() => setOpen(o => !o)} />
+
+          {/* Contact */}
+          <Contact open={open} />
         </>
       );
     }
 
-    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
 </html>
