@@ -6,15 +6,36 @@
   <meta name="description" content="The Digital Scene — Influencer Marketing & Talent Management">
   <title>The Digital Scene</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="./street-image-compressed.jpg">
-  <link rel="preload" as="image" href="./fashion-image-compressed.jpg">
-  <link rel="preload" as="image" href="./music-image-compressed.jpg">
-  <link rel="preload" as="image" href="./film-image-compressed.jpg">
-
   <style>
+    @font-face {
+      font-family: 'Druk Cond Super';
+      src: url('./fonts/JetBrainsMono-2.304/DrukCond-Super.ttf') format('truetype');
+      font-weight: 900;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      src: url('./fonts/JetBrainsMono-2.304/fonts/ttf/JetBrainsMono-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      src: url('./fonts/JetBrainsMono-2.304/fonts/ttf/JetBrainsMono-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Graphik Bold';
+      src: url('./Fonts/JetBrainsMono-2.304/fonts/Graphik-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    h2 { font-family: 'Graphik Bold', sans-serif !important; }
     :root {
       --color-bg: #000000;
       --color-surface: #0d0d0d;
@@ -31,23 +52,21 @@
     }
 
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
+    html, body, #root { margin: 0; padding: 0; background: #000; }
     body {
-      background: var(--color-bg);
+      background: #000;
       color: var(--color-text-primary);
-      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'JetBrains Mono', monospace;
       font-weight: 400;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       overflow: hidden;
-      cursor: none;
     }
-    button { font-family: inherit; cursor: none; }
-    *, button, a, [role="button"] { cursor: none; }
+    button { font-family: inherit; }
 
-    .font-display { font-family: 'Space Grotesk', sans-serif; font-weight: 500; }
-    .font-block   { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.04em; }
-    .font-mono    { font-family: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace; }
+    .font-display { font-family: 'Druk Cond Super', sans-serif; font-weight: 950; }
+    .font-block   { font-family: 'Druk Cond Super', sans-serif; font-weight: 950; letter-spacing: -0.02em; }
+    .font-mono    { font-family: 'JetBrains Mono', monospace; }
 
     .label-eyebrow {
       font-family: 'JetBrains Mono', monospace;
@@ -69,211 +88,59 @@
       z-index: 5;
     }
 
-    /* ── Hero background: static image ─────────────────────── */
+    /* ── Hero nav ──────────────────────────────────────────── */
+    .hero-nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(32px, 7.9vw, 120px);
+      padding-top: 52px;
+      z-index: 10;
+    }
+    .hero-nav-item {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 400;
+      color: #fff;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      transition: opacity 0.2s;
+    }
+    .hero-nav-item:hover { opacity: 0.6; }
+
+    /* ── Hero headline — image mask through text ───────────── */
     .hero-bg {
       position: absolute;
       inset: 0;
-      background-image: url('./hero-image-compressed.jpg');
       background-size: cover;
-      background-position: center 30%;
+      background-position: center;
     }
-
-    /* ── Curtain panels (loading reveal) ────────────────────── */
-    .curtain {
-      position: absolute;
-      left: 0;
-      right: 0;
-      background: #000;
-      z-index: 20;
-      pointer-events: none;
-    }
-    .curtain-top    { top: 0; }
-    .curtain-bottom { bottom: 0; }
-
-    /* Top gradient: dark at edges, lighter in middle for image to show through */
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        180deg,
-        rgba(0,0,0,0.62) 0%,
-        rgba(0,0,0,0.28) 40%,
-        rgba(0,0,0,0.28) 60%,
-        rgba(0,0,0,0.72) 100%
-      );
-      pointer-events: none;
-    }
-
-    /* Subtle dark pill behind center text for legibility */
-    .hero-center-vignette {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 54% 42% at 50% 52%, rgba(0,0,0,0.68) 0%, transparent 100%);
-      pointer-events: none;
-    }
-
-    /* ── Hero headline — Archivo Black only here ───────────── */
-    .hero-h1 {
-      font-family: 'Archivo Black', 'Space Grotesk', sans-serif;
-      font-weight: 900;
-      letter-spacing: -0.01em;
-      color: #fff;
-      text-transform: uppercase;
-      font-size: clamp(40px, 8vw, 132px);
-      line-height: 1;
-      margin: 0;
-      text-align: center;
-      white-space: nowrap;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .hero-h1 .word { display: inline-block; }
-
-    /* Vertical marquee cycling slot */
-    .tm-slot {
-      position: relative;
-      display: inline-block;
-      height: 1em;
-      overflow: hidden;
-      vertical-align: middle;
-      text-align: center;
-    }
-    .tm-slot .tm-word {
+    .hero-logo-wrap {
       position: absolute;
       inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(105deg,
-        var(--accent-blue) 28%,
-        rgba(255,255,255,0.55) 40%,
-        #fff 50%,
-        rgba(255,255,255,0.55) 60%,
-        var(--accent-blue) 72%
-      );
-      background-size: 260% 100%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      white-space: nowrap;
-      animation: shimmerglow 2s ease-in-out infinite;
     }
-    /* Hidden measurer — inherits font from parent h1 */
-    .tm-measure {
-      position: absolute;
-      visibility: hidden;
-      pointer-events: none;
-      white-space: nowrap;
-      left: -9999px;
-      top: 0;
+    .hero-logo {
+      width: clamp(280px, 72vw, 1100px);
+      height: auto;
+      display: block;
     }
-    @media (max-width: 900px) { .hero-h1 { font-size: clamp(28px, 8.5vw, 84px); } }
-    @media (max-width: 520px)  { .hero-h1 { font-size: clamp(22px, 9vw, 60px); } }
-
-    /* ── CTA slab buttons — equal width, text centred, no arrow ─ */
-    .cta-slab {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 190px;
-      padding: 18px 24px;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.18);
-      color: #fff;
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 600;
-      font-size: 12px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      overflow: hidden;
-      transition: color 0.3s cubic-bezier(0.76,0,0.24,1), border-color 0.3s;
-    }
-    .cta-slab::before {
-      content: "";
-      position: absolute; inset: 0;
-      background: var(--accent-blue);
-      transform: translateY(101%);
-      transition: transform 0.45s cubic-bezier(0.76,0,0.24,1);
-      z-index: 0;
-    }
-    .cta-slab > * { position: relative; z-index: 1; }
-    .cta-slab:hover { border-color: var(--accent-blue-2); color: #0a0a0a; }
-    .cta-slab:hover::before { transform: translateY(0); }
-    /* Corner ticks */
-    .cta-slab .tick { position: absolute; width: 8px; height: 8px; border: 1px solid rgba(255,255,255,0.6); }
-    .cta-slab .tick.tl { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
-    .cta-slab .tick.tr { top: -1px; right: -1px; border-left: 0; border-bottom: 0; }
-    .cta-slab .tick.bl { bottom: -1px; left: -1px; border-right: 0; border-top: 0; }
-    .cta-slab .tick.br { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
-
-    /* ── Contact pill ──────────────────────────────────────── */
-    .contact-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 16px 10px 14px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: #fff;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 10px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      transition: all 0.25s ease;
-    }
-    .contact-btn:hover { background: var(--accent-blue); border-color: var(--accent-blue-2); color: #0a0a0a; }
-    .contact-btn .dot {
-      width: 6px; height: 6px;
-      background: #4ade80;
-      border-radius: 50%;
-      box-shadow: 0 0 8px rgba(74,222,128,0.7);
-      animation: pulse 1.6s ease-in-out infinite;
-    }
-    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-    @keyframes shimmerglow {
-      0%   {
-        background-position: -60% center;
-        text-shadow:
-          0 0 2px rgba(230,226,211,0.45),
-          0 0 5px rgba(230,226,211,0.12);
-      }
-      50%  {
-        background-position: 50% center;
-        text-shadow:
-          0 0 2px rgba(255,255,255,0.95),
-          0 0 5px rgba(230,226,211,0.7),
-          0 0 7px rgba(230,226,211,0.3);
-      }
-      100% {
-        background-position: 160% center;
-        text-shadow:
-          0 0 2px rgba(230,226,211,0.45),
-          0 0 5px rgba(230,226,211,0.12);
-      }
+    @media (max-width: 768px) {
+      .hero-nav { gap: clamp(20px, 5vw, 60px); padding-top: 32px; }
+      .hero-nav-item { font-size: 11px; }
     }
 
-    /* ── Star + misc ───────────────────────────────────────── */
-    @keyframes slowSpin { to { transform: rotate(360deg); } }
-    .star-spin { animation: slowSpin 60s linear infinite; display: inline-block; }
+    /* ── Misc ──────────────────────────────────────────────── */
 
-    .hero-logo { transition: opacity 0.2s ease; }
-    .hero-logo:hover { opacity: 0.7; }
-
-    /* ── Custom cursor ─────────────────────────────────────── */
-    .cursor-dot {
-      position: fixed;
-      width: 6px; height: 6px;
-      background: #fff;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      top: 0; left: 0;
-      mix-blend-mode: difference;
-    }
-    @media (hover: none) { .cursor-dot { display: none; } }
 
     /* ── Panel scrollbar ───────────────────────────────────── */
     .panel-scroll::-webkit-scrollbar { width: 4px; }
@@ -282,9 +149,10 @@
 
     /* ── Services accordion ────────────────────────────────── */
     .svc-acc-name {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Graphik Bold', sans-serif;
       font-weight: 700;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
       font-size: clamp(28px, 4.6vw, 52px);
       line-height: 1;
       color: #fff;
@@ -300,8 +168,6 @@
       flex-direction: column;
       transition: all 0.25s cubic-bezier(0.25,0.46,0.45,0.94);
     }
-    .case-card:hover { background: #111; border-color: rgba(255,255,255,0.18); }
-    .case-card:hover .case-cta { color: #fff; letter-spacing: 0.25em; }
 
     .brand-slot {
       width: 60px; height: 24px;
@@ -313,10 +179,10 @@
       flex-shrink: 0;
     }
     .case-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 500;
-      letter-spacing: -0.02em;
-      font-size: 22px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      font-size: 15px;
       color: #fff;
       line-height: 1.15;
       margin: 16px 0 0;
@@ -344,6 +210,19 @@
       text-transform: uppercase; font-family: 'JetBrains Mono', monospace;
     }
 
+    /* ── Infinite slider ──────────────────────────────────── */
+    @keyframes infinite-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .infinite-slider-track {
+      display: flex;
+      align-items: center;
+      width: max-content;
+      will-change: transform;
+      animation: infinite-scroll linear infinite;
+    }
+
     /* ── Service pill tags ─────────────────────────────────── */
     .svc-pill {
       border: 1px solid rgba(255,255,255,0.15);
@@ -354,31 +233,31 @@
     }
 
     /* ── Contact form modal ────────────────────────────────── */
-    .contact-modal {
-      background: #0a0a0a;
-      border: 1px solid rgba(255,255,255,0.12);
-      width: min(440px, 92vw);
-      padding: 32px;
-      position: relative;
-    }
     .contact-input {
       width: 100%; background: transparent; border: 0;
-      border-bottom: 1px solid rgba(255,255,255,0.18);
-      color: #fff; font-family: 'Space Grotesk', sans-serif;
-      font-size: 14px; font-weight: 300; padding: 12px 0; outline: none;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      color: #fff; font-family: 'JetBrains Mono', monospace;
+      font-size: 15px; font-weight: 400; padding: 14px 0; outline: none;
       transition: border-color 0.2s;
     }
-    .contact-input:focus { border-color: var(--accent-blue-2); }
-    .contact-input::placeholder { color: rgba(255,255,255,0.3); }
-    .contact-textarea { resize: none; min-height: 88px; }
-    .contact-submit {
-      width: 100%; margin-top: 24px; padding: 14px;
-      background: var(--accent-blue); border: 0; color: #0a0a0a;
-      font-family: 'Space Grotesk', sans-serif; font-weight: 600;
-      font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
-      transition: background 0.25s;
+    .contact-input:focus { border-color: rgba(255,255,255,0.6); }
+    .contact-input::placeholder { color: rgba(255,255,255,0.2); }
+    .contact-textarea { resize: none; min-height: 100px; }
+    .contact-label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: rgba(255,255,255,0.4);
+      margin-bottom: 4px;
     }
-    .contact-submit:hover { background: var(--accent-blue-2); color: #0a0a0a; }
+    .contact-submit {
+      background: transparent; border: 1px solid rgba(255,255,255,0.25);
+      color: #fff; font-family: 'Druk Cond Super', sans-serif;
+      font-weight: 900; font-size: 22px; letter-spacing: 0.06em;
+      text-transform: uppercase; padding: 18px 48px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .contact-submit:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.5); }
 
     /* ── Section spacing ───────────────────────────────────── */
     .section-spacer { margin-top: 96px; }
@@ -392,14 +271,6 @@
       .case-grid { grid-template-columns: repeat(2, 1fr) !important; }
     }
     @media (max-width: 480px) {
-      /* Hero bars */
-      .hero-topbar    { padding: 16px 20px !important; }
-      .hero-bottombar { padding: 16px 20px !important; }
-      /* Hero h1 — slightly smaller so FASHION fits on one line */
-      .hero-h1 { font-size: clamp(17px, 7.8vw, 38px); }
-      /* CTA slab pair fits side-by-side */
-      .cta-slab { width: min(145px, 40vw); padding: 15px 10px; }
-      .cta-container { margin-top: 32px !important; gap: 10px !important; }
       /* Accordion — collapse wide left column */
       .acc-btn  { grid-template-columns: 32px 1fr auto !important; gap: 10px !important; padding: 18px 0 !important; }
       .acc-body { grid-template-columns: 32px 1fr !important; gap: 10px !important; }
@@ -446,8 +317,8 @@
         est:        "EST. 2024",
       },
       services: {
-        brands:   ["Influencer Campaigns", "Access to Next-Gen Creators", "Paid Partnerships", "Content Strategy"],
-        creators: ["Talent Management", "Brand Deal Negotiation", "Content Strategy"],
+        brands:   ["Creator Partnerships", "Campaign Strategy", "Cultural Marketing"],
+        creators: ["Talent Management", "Brand Partnerships", "Content Strategy"],
       },
       caseStudies: [
         {
@@ -477,7 +348,7 @@
   <script type="text/babel" data-presets="react">
     const { useState, useEffect, useRef } = React;
     const FM = window.framerMotion || window.Motion || window.motion;
-    const { motion, AnimatePresence } = FM;
+    const { motion, AnimatePresence, useMotionValue, animate: fmAnimate } = FM;
 
     const C = window.SITE_CONTENT;
     const EASE_OUT   = [0.25, 0.46, 0.45, 0.94];
@@ -553,142 +424,8 @@
       );
     }
 
-    /* ─── Animated headline ─────────────────────────────────── */
-    // phases: collapsed → expanding → playing → collapsing → collapsed (loop)
-    //   "collapsed"  : THE SCENE touch with no gap ("THESCENE")
-    //   "expanding"  : slot opens to first word width
-    //   "playing"    : words cycle 1s each
-    //   "collapsing" : last word fades, slot shrinks back to 0
-    const CYCLE_WORDS = ["STREET", "FASHION", "MUSIC", "FILM"];
-    const GAP = 22; // gap between THE / word / SCENE — also used in collapsed state
-
-    function HeadlineAnimated({ initialDelay = 2100, onWordActive }) {
-      const [phase, setPhase] = useState("collapsed");
-      const [idx, setIdx]     = useState(0);
-      const [slotW, setSlotW] = useState(0);
-      const measureRef        = useRef(null);
-      const widths            = useRef([]);
-
-      // Measure word widths; re-measure once fonts are ready
-      useEffect(() => {
-        const measure = () => {
-          if (!measureRef.current) return;
-          const spans = measureRef.current.querySelectorAll("[data-w]");
-          const ws = Array.from(spans).map(s => s.getBoundingClientRect().width);
-          if (ws.some(w => w > 0)) widths.current = ws;
-        };
-        measure();
-        if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
-      }, []);
-
-      // Wait initialDelay, then open the slot and start expanding
-      useEffect(() => {
-        const t = setTimeout(() => {
-          setIdx(0);
-          setSlotW(widths.current[0] || 0);
-          setPhase("expanding");
-        }, initialDelay);
-        return () => clearTimeout(t);
-      }, []);
-
-      // expanding: wait for slot animation to finish, then start cycling
-      useEffect(() => {
-        if (phase !== "expanding") return;
-        const t = setTimeout(() => setPhase("playing"), 620);
-        return () => clearTimeout(t);
-      }, [phase]);
-
-      // playing: fire onWordActive, advance or collapse after 1s
-      useEffect(() => {
-        if (phase !== "playing") return;
-        onWordActive?.(idx);
-        const t = setTimeout(() => {
-          if (idx >= CYCLE_WORDS.length - 1) {
-            setPhase("collapsing");
-          } else {
-            const next = idx + 1;
-            setSlotW(widths.current[next] || 0);
-            setIdx(next);
-          }
-        }, 1000);
-        return () => clearTimeout(t);
-      }, [idx, phase]);
-
-      // collapsing: close slot (0.7s), pause (1s), loop
-      useEffect(() => {
-        if (phase !== "collapsing") return;
-        setSlotW(0);
-        const tCollapsed = setTimeout(() => setPhase("collapsed"), 700);
-        const tExpand    = setTimeout(() => {
-          setIdx(0);
-          setSlotW(widths.current[0] || 0);
-          setPhase("expanding");
-        }, 700 + 1000);
-        return () => { clearTimeout(tCollapsed); clearTimeout(tExpand); };
-      }, [phase]);
-
-      return (
-        <>
-          {/* Hidden measurer — inherits h1 font via CSS cascade */}
-          <span ref={measureRef} className="tm-measure" aria-hidden="true">
-            {CYCLE_WORDS.map(w => <span key={w} data-w>{w}</span>)}
-          </span>
-
-          <span className="word">THE</span>
-
-          <motion.span
-            className="tm-slot"
-            animate={{
-              width:       slotW,
-              marginLeft:  GAP,
-              marginRight: GAP,
-              opacity:     phase === "collapsing" ? 0 : 1,
-            }}
-            initial={{ width: 0, marginLeft: GAP, marginRight: GAP, opacity: 0 }}
-            transition={{ duration: 0.55, ease: EASE_PANEL }}
-          >
-            <AnimatePresence mode="popLayout">
-              {phase === "playing" && (
-                <motion.span
-                  key={CYCLE_WORDS[idx]}
-                  className="tm-word"
-                  initial={{ y: "100%", opacity: 0, filter: "blur(6px)" }}
-                  animate={{ y: "0%",   opacity: 1, filter: "blur(0px)" }}
-                  exit={  { y: "-100%", opacity: 0, filter: "blur(6px)" }}
-                  transition={{ duration: 0.5, ease: EASE_PANEL }}
-                >
-                  {CYCLE_WORDS[idx]}
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </motion.span>
-
-          <span className="word">SCENE</span>
-        </>
-      );
-    }
 
     /* ─── Custom cursor ─────────────────────────────────────── */
-    function CustomCursor() {
-      const dotRef = useRef(null);
-      const target = useRef({ x: -100, y: -100 });
-      const pos    = useRef({ x: -100, y: -100 });
-      useEffect(() => {
-        const onMove = e => { target.current = { x: e.clientX, y: e.clientY }; };
-        window.addEventListener("mousemove", onMove);
-        let raf;
-        const tick = () => {
-          pos.current.x += (target.current.x - pos.current.x) * 0.18;
-          pos.current.y += (target.current.y - pos.current.y) * 0.18;
-          if (dotRef.current)
-            dotRef.current.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px) translate(-50%,-50%)`;
-          raf = requestAnimationFrame(tick);
-        };
-        raf = requestAnimationFrame(tick);
-        return () => { window.removeEventListener("mousemove", onMove); cancelAnimationFrame(raf); };
-      }, []);
-      return <div ref={dotRef} className="cursor-dot" />;
-    }
 
     /* ─── Contact modal ─────────────────────────────────────── */
     function ContactModal({ open, onClose }) {
@@ -704,54 +441,79 @@
         return () => window.removeEventListener("keydown", fn);
       }, [open, onClose]);
 
+      const wordStyle = {
+        fontFamily: "'Graphik Bold', sans-serif",
+        fontWeight: 700,
+        fontSize: "clamp(48px, 9vw, 130px)",
+        lineHeight: 0.88,
+        textTransform: "uppercase",
+        color: "#fff",
+        letterSpacing: "-0.03em",
+        margin: 0,
+      };
+
       return (
         <AnimatePresence>
           {open && (
             <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              onClick={onClose}
-              style={{ position: "fixed", inset: 0, zIndex: 200, background: "rgba(0,0,0,0.80)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              style={{ position: "fixed", inset: 0, zIndex: 200, background: "#000", display: "flex", alignItems: "center", justifyContent: "center", padding: "48px 64px", overflow: "hidden" }}
             >
+              <button
+                onClick={onClose}
+                style={{ position: "fixed", top: 36, right: 44, background: "transparent", border: 0, color: "rgba(255,255,255,0.35)", fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", padding: 0, transition: "color 0.2s" }}
+                onMouseEnter={e => e.currentTarget.style.color = "#fff"}
+                onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.35)"}
+              >ESC</button>
+
               <motion.div
-                onClick={e => e.stopPropagation()}
-                initial={{ opacity: 0, y: 12, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0,  scale: 1 }}
-                exit={  { opacity: 0, y: 12,  scale: 0.98 }}
-                transition={{ duration: 0.3, ease: EASE_OUT }}
-                className="contact-modal grain"
+                initial={{ opacity: 0, y: 32 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 32 }}
+                transition={{ duration: 0.4, ease: EASE_OUT, delay: 0.05 }}
+                style={{ width: "100%", maxWidth: 1100, display: "flex", alignItems: "flex-start", gap: "clamp(40px, 6vw, 96px)" }}
               >
-                <button
-                  onClick={onClose}
-                  aria-label="Close"
-                  style={{ position: "absolute", top: 12, right: 14, background: "transparent", border: 0, color: "rgba(255,255,255,0.5)", fontSize: 22, fontWeight: 300, lineHeight: 1, padding: 8 }}
-                  onMouseEnter={e => e.currentTarget.style.color = "#fff"}
-                  onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.5)"}
-                >×</button>
+                {/* Left: one word per line, tight stack */}
+                <div style={{ display: "flex", flexDirection: "column", gap: 0, flexShrink: 0 }}>
+                  {["JOIN", "THE", "SCENE"].map(w => (
+                    <h2 key={w} style={wordStyle}>{w}</h2>
+                  ))}
+                </div>
 
-                <div className="font-mono" style={{ fontSize: 10, letterSpacing: "0.2em", color: "var(--accent-blue-2)", textTransform: "uppercase", marginBottom: 8 }}>◆ GET IN TOUCH</div>
-                <h3 className="font-block" style={{ fontSize: 28, color: "#fff", margin: "0 0 24px", textTransform: "uppercase" }}>
-                  <TextScramble duration={0.6} speed={0.03}>Start a Project</TextScramble>
-                </h3>
-
-                {!sent ? (
-                  <form onSubmit={e => { e.preventDefault(); setSent(true); }}>
-                    <input className="contact-input" placeholder="Name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} required />
-                    <input className="contact-input" type="email" placeholder="Email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} required style={{ marginTop: 8 }} />
-                    <textarea className="contact-input contact-textarea" placeholder="Tell us about your project…" value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} required style={{ marginTop: 8 }} />
-                    <button className="contact-submit" type="submit">Send Message →</button>
-                    <div className="font-mono" style={{ fontSize: 10, letterSpacing: "0.16em", color: "rgba(255,255,255,0.4)", marginTop: 16, textTransform: "uppercase" }}>
-                      Or email — hello@thedigitalscene.co
-                    </div>
-                  </form>
-                ) : (
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }} style={{ padding: "16px 0" }}>
-                    <div className="font-mono" style={{ fontSize: 10, letterSpacing: "0.2em", color: "#4ade80", textTransform: "uppercase", marginBottom: 12 }}>✓ MESSAGE RECEIVED</div>
-                    <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-                      Thanks {form.name || "—"}. We'll be back in touch within 48 hours.
-                    </p>
-                  </motion.div>
-                )}
+                {/* Right: form */}
+                <div style={{ flex: 1, minWidth: 0, maxWidth: 440 }}>
+                  {!sent ? (
+                    <form onSubmit={async e => { e.preventDefault(); const res = await fetch("https://formspree.io/f/xgodqwok", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(form) }); if (res.ok) setSent(true); }}>
+                      <div style={{ marginBottom: 20 }}>
+                        <label className="contact-label">Name *</label>
+                        <input className="contact-input" placeholder="John Smith" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} required />
+                      </div>
+                      <div style={{ marginBottom: 20 }}>
+                        <label className="contact-label">Email *</label>
+                        <input className="contact-input" type="email" placeholder="contact@gmail.com" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} required />
+                      </div>
+                      <div style={{ marginBottom: 28 }}>
+                        <label className="contact-label">Message *</label>
+                        <textarea className="contact-input contact-textarea" placeholder="Project inquiry…" value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} required />
+                      </div>
+                      <button className="contact-submit" type="submit">Send Message</button>
+                      <div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.08)", display: "flex", flexDirection: "column", gap: 8 }}>
+                        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.12em", color: "rgba(255,255,255,0.45)" }}>hello@thedigitalscene.com</div>
+                        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, letterSpacing: "0.12em", color: "rgba(255,255,255,0.3)", lineHeight: 1.6 }}>224 Shoreditch High Street<br />London, United Kingdom E1 6PJ</div>
+                      </div>
+                    </form>
+                  ) : (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+                      <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, letterSpacing: "0.2em", color: "rgba(255,255,255,0.5)", textTransform: "uppercase", marginBottom: 20 }}>✓ Message received</div>
+                      <p style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 13, color: "rgba(255,255,255,0.6)", lineHeight: 1.8, margin: 0 }}>
+                        Thanks {form.name || "—"}. We'll be back in touch within 48 hours.
+                      </p>
+                    </motion.div>
+                  )}
+                </div>
               </motion.div>
             </motion.div>
           )}
@@ -759,166 +521,63 @@
       );
     }
 
+
     /* ─── Hero ──────────────────────────────────────────────── */
-    const WORD_IMAGES = [
-      "./street-image-compressed.jpg",
-      "./fashion-image-compressed.jpg",
-      "./music-image-compressed.jpg",
-      "./film-image-compressed.jpg",
-    ];
+    function HeroSection({ onOpenPanel, onOpenContact }) {
+      const SCENES = [
+        './scene-1.jpg',
+        './scene-2.jpg',
+        './scene-3.jpg',
+        './scene-4.jpg',
+        './scene-5.jpg',
+        './scene-6.jpg',
+        './scene-7.jpg',
+        './scene-8.jpg',
+        // scenes 9-11 will be added once Figma API rate limit resets
+      ];
+      const [sceneIdx, setSceneIdx] = React.useState(0);
 
-    function HeroSection({ onOpenPanel, onOpenContact, replayKey }) {
-      const [heroPhase, setHeroPhase] = useState("video");
-      const [bgVisible, setBgVisible] = useState(false);
-      const [wordIdx,   setWordIdx]   = useState(0);
-      const [flashKey,  setFlashKey]  = useState(0);
-      const bgVisibleRef              = useRef(false);
-
-      // Video intro phase machine
-      useEffect(() => {
-        const t1 = setTimeout(() => setHeroPhase("closing"),  2000);
-        const t2 = setTimeout(() => setHeroPhase("black"),    2600);
-        const t3 = setTimeout(() => setHeroPhase("revealed"), 2700);
-        return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+      // Preload images
+      React.useEffect(() => {
+        SCENES.forEach(src => { const img = new Image(); img.src = src; });
       }, []);
 
-      const revealed = heroPhase === "revealed";
+      // Cycle images every 400ms — hard cut, no transition
+      React.useEffect(() => {
+        const id = setInterval(() => setSceneIdx(i => (i + 1) % SCENES.length), 400);
+        return () => clearInterval(id);
+      }, []);
 
       return (
-        <section
-          className="grain"
-          style={{ position: "fixed", inset: 0, height: "100dvh", width: "100vw", overflow: "hidden", background: "#000" }}
-        >
-          {/* Video — plays during intro, hidden once text is revealed */}
-          {!revealed && (
-            <video
-              autoPlay muted playsInline
-              src="./hero-video1.mp4"
-              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
-            />
-          )}
+        <section style={{ position: "fixed", inset: 0, height: "100dvh", overflow: "hidden", background: "#000" }}>
+          {/* Nav */}
+          <nav className="hero-nav">
+            <button className="hero-nav-item" onClick={() => onOpenPanel("brands")}>For Brands</button>
+            <button className="hero-nav-item" onClick={() => onOpenPanel("creators")}>For Talent</button>
+            <button className="hero-nav-item" onClick={onOpenContact}>Contact</button>
+          </nav>
 
-          {/* Hero image — swaps per word, fades in on first word */}
-          <motion.div
+          {/* Cycling background */}
+          <div
             className="hero-bg"
-            style={{ backgroundImage: bgVisible ? `url('${WORD_IMAGES[wordIdx]}')` : "none" }}
-            animate={{ opacity: bgVisible ? 0.72 : 0 }}
-            initial={{ opacity: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-          />
-          <div className="hero-overlay" />
-          <div className="hero-center-vignette" />
-
-          {/* Snapshot flash — fires on each word transition */}
-          <AnimatePresence>
-            {flashKey > 0 && (
-              <motion.div
-                key={flashKey}
-                style={{ position: "absolute", inset: 0, background: "#fff", zIndex: 15, pointerEvents: "none" }}
-                initial={{ opacity: 0.28 }}
-                animate={{ opacity: 0 }}
-                transition={{ duration: 0.18, ease: "easeOut" }}
-              />
-            )}
-          </AnimatePresence>
-
-          {/* Curtains — close over video, then open to reveal text */}
-          <motion.div
-            className="curtain curtain-top"
-            animate={{ height: (heroPhase === "closing" || heroPhase === "black") ? "50%" : "0%" }}
-            initial={{ height: "0%" }}
-            transition={{ duration: 0.6, ease: EASE_PANEL }}
-          />
-          <motion.div
-            className="curtain curtain-bottom"
-            animate={{ height: (heroPhase === "closing" || heroPhase === "black") ? "50%" : "0%" }}
-            initial={{ height: "0%" }}
-            transition={{ duration: 0.6, ease: EASE_PANEL }}
+            style={{ backgroundImage: `url('${SCENES[sceneIdx]}')` }}
           />
 
-          {/* Top bar — contact only, visible from the start */}
-          <div className="hero-topbar" style={{ position: "absolute", top: 0, left: 0, right: 0, padding: "24px 40px", zIndex: 10, display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
-            <motion.button
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.5 }}
-              className="contact-btn"
-              onClick={onOpenContact}
-            >
-              <span className="dot" />Contact
-            </motion.button>
-          </div>
-
-          {/* Center — clip-path wipe-up reveal for h1, staggered CTAs */}
-          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
-            <motion.div
-              animate={revealed ? { clipPath: "inset(0 0 0% 0)", y: 0 } : { clipPath: "inset(0 0 110% 0)", y: 12 }}
-              initial={{ clipPath: "inset(0 0 110% 0)", y: 12 }}
-              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <h1 className="hero-h1">
-                {revealed
-                  ? <HeadlineAnimated
-                      key={replayKey}
-                      initialDelay={600}
-                      onWordActive={(i) => {
-                        setWordIdx(i);
-                        if (bgVisibleRef.current) {
-                          setFlashKey(k => k + 1);
-                        } else {
-                          bgVisibleRef.current = true;
-                          setBgVisible(true);
-                        }
-                      }}
-                    />
-                  : <><span className="word">THE</span><span className="word">&nbsp;SCENE</span></>
-                }
-              </h1>
-            </motion.div>
-
-            <div className="cta-container" style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginTop: 56 }}>
-              {["brands", "creators"].map((type, i) => (
-                <motion.div
-                  key={type}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={revealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ delay: 0.3 + i * 0.12, duration: 0.55, ease: EASE_OUT }}
-                >
-                  <MagneticBtn className="cta-slab" onClick={() => onOpenPanel(type)}>
-                    <span className="tick tl"/><span className="tick tr"/><span className="tick bl"/><span className="tick br"/>
-                    <span>{type === "brands" ? "For Brands" : "For Creators"}</span>
-                  </MagneticBtn>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* Bottom bar — star left, London right, visible from start */}
-          <div className="hero-bottombar" style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "24px 40px", zIndex: 10, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <motion.span
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.5 }}
-              className="star-spin"
-              style={{ fontSize: 10, color: "rgba(255,255,255,0.4)" }}
-            >★</motion.span>
-
-            <motion.span
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.5 }}
-              className="font-mono"
-              style={{ fontSize: 10, letterSpacing: "0.18em", color: "rgba(255,255,255,0.3)", textTransform: "uppercase" }}
-            >
-              London
-            </motion.span>
-          </div>
+          {/* Top scrim — masks any bright image content above the nav */}
+          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 120, background: "linear-gradient(to bottom, #000 0%, transparent 100%)", zIndex: 9, pointerEvents: "none" }} />
         </section>
       );
     }
 
+
     /* ─── Services accordion ────────────────────────────────── */
     const SERVICE_DETAILS = {
-      "Influencer Campaigns":      "End-to-end campaign concepting, talent matching, deliverables and performance — from one-off integrations to global multi-creator activations.",
-      "Access to Next-Gen Creators": "Hand-curated rosters across fashion, music and culture. We open doors to the talent shaping what comes next.",
-      "Paid Partnerships":         "Always-on ambassador programs and paid collaborations structured for repeatable, measurable cultural lift.",
-      "Content Strategy":          "Editorial-grade strategy: tone, format mix, channel cadence, hooks and the supporting calendar to ship it.",
-      "Talent Management":         "Day-one career architecture — bookings, contracts, calendars, image, opportunity flow.",
-      "Brand Deal Negotiation":    "Rates, scope, usage, exclusivity. We protect the upside and put creators in the room they belong in.",
+      "Creator Partnerships": "Connecting brands with the creators shaping culture.",
+      "Campaign Strategy":    "Building creator-led campaigns with a focus on ideas, not just execution.",
+      "Cultural Marketing":   "Helping brands show up inside culture, not outside of it.",
+      "Talent Management":    "Management focused on positioning, growth, and the right opportunities.",
+      "Brand Partnerships":   "Connecting creators with brands that fit their audience and identity.",
+      "Content Strategy":     "Shaping how creators show up across platforms and culture.",
     };
 
     function ServicesAccordion({ items }) {
@@ -977,6 +636,13 @@
       );
     }
 
+    /* ─── MUBI logo SVG ────────────────────────────────────── */
+    function MubiLogo({ uid = "0" }) {
+      return (
+        <img src="./Brand-logos/mubi.png" alt="MUBI" style={{ display: "block", height: 14, width: "auto", filter: "brightness(0) invert(1)", opacity: 0.8 }} />
+      );
+    }
+
     /* ─── Case study grid ───────────────────────────────────── */
     const POSTERS = {
       "cs-1": "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=70",
@@ -984,38 +650,55 @@
       "cs-3": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&q=70",
     };
 
-    function CaseStudyCard({ cs, onOpen, idx }) {
-      const cardRef = useRef(null);
-      const inView  = FM.useInView(cardRef, { once: true, margin: "0px 0px -40px 0px" });
-      return (
-        <motion.div
-          ref={cardRef}
-          className="case-card"
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-          whileHover={{ y: -6, transition: { duration: 0.3, ease: EASE_OUT } }}
-          transition={{ delay: idx * 0.08, duration: 0.5, ease: EASE_OUT }}
-          onClick={() => onOpen(cs)}
-        >
-          <div className="brand-slot">{cs.brand}</div>
-          <h4 className="case-title">{cs.title}</h4>
+    const BRAND_LOGO_MAP = {
+      "STRT/CO.":  "mubi.png",
+      "MAISON N.": "loreal.png",
+      "POLAR/FM":  "opera.png",
+    };
 
-          {/* Video preview placeholder */}
-          <div style={{
-            position: "relative", marginTop: 16, aspectRatio: "16/9",
-            background: "#0a0a0a", border: "1px solid rgba(255,255,255,0.1)",
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.38),rgba(0,0,0,0.58)), url(${POSTERS[cs.id]})`,
-            backgroundSize: "cover", backgroundPosition: "center", overflow: "hidden",
-          }}>
-            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                style={{ width: 48, height: 48, borderRadius: "50%", background: "var(--accent-blue)", border: "1px solid rgba(255,255,255,0.3)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 0 6px rgba(35,71,184,0.18)" }}
-              >
-                <span style={{ width: 0, height: 0, marginLeft: 3, borderLeft: "10px solid #fff", borderTop: "6px solid transparent", borderBottom: "6px solid transparent" }} />
-              </motion.div>
+    function CaseStudyCard({ cs, onOpen }) {
+      const [hovered, setHovered] = useState(false);
+      const isMubi = cs.id === "cs-1";
+      return (
+        <div
+          className="case-card"
+          onClick={() => onOpen(cs)}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+        >
+          {/* Brand logo above thumbnail */}
+          {isMubi && (
+            <div style={{ marginBottom: 10 }}>
+              <MubiLogo uid="card1" />
             </div>
-            <div style={{ position: "absolute", top: 8, left: 10, fontFamily: "'JetBrains Mono',monospace", fontSize: 9, letterSpacing: "0.18em", color: "rgba(255,255,255,0.7)", textTransform: "uppercase" }}>● Reel</div>
+          )}
+
+          {/* Thumbnail */}
+          <div style={isMubi ? { display: "flex", justifyContent: "center" } : {}}>
+          <div style={{ position: "relative", aspectRatio: isMubi ? "9/16" : "16/9", background: "#000", overflow: "hidden", border: "1px solid rgba(255,255,255,0.1)", ...(isMubi ? { width: 150, flexShrink: 0 } : {}) }}>
+            {isMubi ? (
+              <>
+                <video
+                  src="./Brands-work/Mubi Oscars TikTok.mp4"
+                  muted playsInline preload="metadata"
+                  style={{ width: "100%", height: "100%", objectFit: "cover", filter: "blur(1.5px) brightness(0.7)" }}
+                />
+                {/* Dark overlay on thumbnail */}
+                <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.35)", pointerEvents: "none" }} />
+              </>
+            ) : (
+              <>
+                <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${POSTERS[cs.id]})`, backgroundSize: "cover", backgroundPosition: "center" }} />
+                <div style={{ position: "absolute", top: 10, right: 12 }}>
+                  <img
+                    src={`./brand-logos/${BRAND_LOGO_MAP[cs.brand] || "squarespace.png"}`}
+                    alt={cs.brand}
+                    style={{ height: 14, width: "auto", display: "block", filter: "brightness(0) invert(1)", opacity: 0.55, userSelect: "none", pointerEvents: "none" }}
+                  />
+                </div>
+              </>
+            )}
+          </div>
           </div>
 
           <div style={{ display: "flex", gap: 16, marginTop: 16, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
@@ -1026,8 +709,8 @@
               </div>
             ))}
           </div>
-          <div className="case-cta">View Case Study →</div>
-        </motion.div>
+          <div className="case-cta" style={{ color: hovered ? "#fff" : "rgba(255,255,255,0.3)", transition: "color 0.2s" }}>See More</div>
+        </div>
       );
     }
 
@@ -1035,6 +718,91 @@
       return (
         <div className="case-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 1, background: "rgba(255,255,255,0.06)" }}>
           {C.caseStudies.map((cs, i) => <CaseStudyCard key={cs.id} cs={cs} idx={i} onOpen={onOpen} />)}
+        </div>
+      );
+    }
+
+    /* ─── InfiniteSlider ────────────────────────────────────── */
+    function InfiniteSlider({ children, gap = 16, duration = 25, reverse = false }) {
+      const items = React.Children.toArray(children);
+      return (
+        <div style={{ overflow: "hidden", width: "100%" }}>
+          <div
+            className="infinite-slider-track"
+            style={{
+              animationDuration: `${duration}s`,
+              animationDirection: reverse ? "reverse" : "normal",
+            }}
+          >
+            {items.map((child, i) => (
+              <div key={`a-${i}`} style={{ flexShrink: 0, paddingRight: `${gap}px` }}>{child}</div>
+            ))}
+            {items.map((child, i) => (
+              <div key={`b-${i}`} style={{ flexShrink: 0, paddingRight: `${gap}px` }}>{child}</div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    /* ─── ProgressiveBlur ───────────────────────────────────── */
+    function ProgressiveBlur({ direction = "left", blurLayers = 8, blurIntensity = 1, style }) {
+      const ANGLES = { top: 0, right: 90, bottom: 180, left: 270 };
+      const layers  = Math.max(blurLayers, 2);
+      const segSize = 1 / (blurLayers + 1);
+      const angle   = ANGLES[direction] ?? 270;
+      return (
+        <div style={{ position: "absolute", pointerEvents: "none", ...style }}>
+          {Array.from({ length: layers }).map((_, i) => {
+            const stops = [i, i + 1, i + 2, i + 3]
+              .map(n => n * segSize)
+              .map((pos, pi) =>
+                `rgba(255,255,255,${pi === 1 || pi === 2 ? 1 : 0}) ${(pos * 100).toFixed(1)}%`
+              );
+            const grad = `linear-gradient(${angle}deg, ${stops.join(", ")})`;
+            return (
+              <div
+                key={i}
+                style={{
+                  position: "absolute", inset: 0,
+                  maskImage: grad,
+                  WebkitMaskImage: grad,
+                  backdropFilter: `blur(${(i * blurIntensity).toFixed(2)}px)`,
+                }}
+              />
+            );
+          })}
+        </div>
+      );
+    }
+
+    /* ─── BrandLogosSlider ──────────────────────────────────── */
+    const BRAND_LOGOS = [
+      { name: "MUBI",           file: "mubi.png" },
+      { name: "Squarespace",    file: "squarespace.png" },
+      { name: "Raycon",         file: "raycon.png" },
+      { name: "Netflix",        file: "netflix.png" },
+      { name: "Henson Shaving", file: "hensonshaving.png" },
+      { name: "Apple TV",       file: "appletv.png" },
+      { name: "ExpressVPN",     file: "expressvpn.png" },
+      { name: "L'Oréal",        file: "loreal.png" },
+      { name: "Opera",          file: "opera.png" },
+      { name: "Skillshare",     file: "skillshare.png" },
+    ];
+
+    function BrandLogosSlider() {
+      return (
+        <div style={{ width: "100%", overflow: "hidden" }}>
+          <InfiniteSlider duration={45} gap={64}>
+            {BRAND_LOGOS.map((brand, i) => (
+              <img
+                key={i}
+                src={`./brand-logos/${brand.file}`}
+                alt={brand.name}
+                style={{ height: 28, width: "auto", display: "block", opacity: 0.45, filter: "brightness(0) invert(1)", userSelect: "none", pointerEvents: "none" }}
+              />
+            ))}
+          </InfiniteSlider>
         </div>
       );
     }
@@ -1071,7 +839,6 @@
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.3, ease: EASE_OUT }}
-                className="grain"
                 className="grain case-modal-inner" style={{ position: "relative", width: "min(800px,90vw)", maxHeight: "85vh", overflowY: "auto", background: "#111", border: "1px solid rgba(255,255,255,0.1)", padding: 48 }}
               >
                 <button
@@ -1082,8 +849,33 @@
                   onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.5)"}
                 >×</button>
 
-                <div className="brand-slot" style={{ width: 80, height: 28 }}>{cs.brand}</div>
-                <h2 className="font-display case-modal-title" style={{ fontSize: 40, margin: "20px 0 0", color: "#fff", lineHeight: 1.1 }}>{cs.title}</h2>
+                {/* Media */}
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: 32 }}>
+                <div style={{ ...(cs.id === "cs-1" ? { width: 260, aspectRatio: "9/16" } : { width: "100%", aspectRatio: "16/9" }), background: "#000", position: "relative", overflow: "hidden" }}>
+                  {cs.id === "cs-1"
+                    ? <video
+                        src="./Brands-work/Mubi Oscars TikTok.mp4"
+                        autoPlay playsInline controls
+                        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                      />
+                    : cs.youtube
+                      ? <iframe
+                          src={`https://www.youtube.com/embed/${cs.youtube}?autoplay=0&rel=0`}
+                          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", border: 0 }}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      : <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${POSTERS[cs.id]})`, backgroundSize: "cover", backgroundPosition: "center" }} />
+                  }
+                </div>
+                </div>
+
+                <img
+                  src={`./brand-logos/${BRAND_LOGO_MAP[cs.brand] || "squarespace.png"}`}
+                  alt={cs.brand}
+                  style={{ height: 20, width: "auto", display: "block", filter: "brightness(0) invert(1)", opacity: 0.5, marginBottom: 16 }}
+                />
+                <h2 className="case-modal-title" style={{ fontSize: 40, margin: "0 0 0", color: "#fff", lineHeight: 1.1 }}>{cs.title}</h2>
                 <hr style={{ border: 0, borderTop: "1px solid rgba(255,255,255,0.08)", margin: "24px 0" }} />
 
                 <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.4)", marginBottom: 16 }}>Overview</div>
@@ -1098,12 +890,6 @@
                     </div>
                   ))}
                 </div>
-
-                <hr style={{ border: 0, borderTop: "1px solid rgba(255,255,255,0.08)", margin: "32px 0 24px" }} />
-                <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.4)", marginBottom: 16 }}>Services Delivered</div>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  {cs.services.map(s => <span key={s} className="svc-pill">{s}</span>)}
-                </div>
               </motion.div>
             </motion.div>
           )}
@@ -1115,7 +901,7 @@
     function OverlayPanel({ type, onClose }) {
       const [activeCS, setActiveCS] = useState(null);
       const services = type === "brands" ? C.services.brands : C.services.creators;
-      const title    = type === "brands" ? "For Brands" : "For Creators";
+      const title    = type === "brands" ? "For Brands" : "For Talent";
 
       return (
         <motion.div
@@ -1123,7 +909,7 @@
           animate={{ height: "100dvh" }}
           exit={{ height: 0 }}
           transition={{ duration: 0.55, ease: EASE_PANEL }}
-          style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 50, background: "#0a0a0a", overflow: "hidden" }}
+          style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 50, background: "#000", overflow: "hidden" }}
         >
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -1134,17 +920,9 @@
             {/* Sticky header */}
             <div
               className="panel-header"
-              style={{ position: "sticky", top: 0, zIndex: 5, background: "rgba(10,10,10,0.92)", backdropFilter: "blur(8px)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "24px 48px", display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 24 }}
+              style={{ position: "sticky", top: 0, zIndex: 5, background: "rgba(0,0,0,0.92)", backdropFilter: "blur(8px)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "24px 48px", display: "flex", justifyContent: "space-between", alignItems: "center" }}
             >
               <span className="label-eyebrow" style={{ color: "rgba(255,255,255,0.4)" }}>{title}</span>
-              <img
-                src="./THE DIGITAL SCENE LOGO.png"
-                alt="The Digital Scene — back to home"
-                onClick={onClose}
-                style={{ height: 28, width: "auto", justifySelf: "center", transition: "opacity 0.2s" }}
-                onMouseEnter={e => e.currentTarget.style.opacity = "0.65"}
-                onMouseLeave={e => e.currentTarget.style.opacity = "1"}
-              />
               <button
                 onClick={onClose}
                 aria-label="Close"
@@ -1162,30 +940,23 @@
               {type === "brands" && (
                 <>
                   <div className="section-spacer" />
-                  <Reveal delay={0.1}>
-                    <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.3)", marginBottom: 24 }}>Work</div>
-                    <CaseStudyGrid onOpen={setActiveCS} />
-                  </Reveal>
+                  <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.3)", marginBottom: 24 }}>Work</div>
+                  <CaseStudyGrid onOpen={setActiveCS} />
                 </>
               )}
 
               {type === "creators" && (
                 <>
                   <div className="section-spacer" />
-                  <Reveal delay={0.1}>
-                    <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.3)", marginBottom: 32 }}>Brands We've Worked With</div>
-                    <BrandPartners />
-                  </Reveal>
+                  <div className="label-eyebrow" style={{ color: "rgba(255,255,255,0.3)", marginBottom: 56 }}>Brand Partners</div>
+                  <BrandLogosSlider />
                 </>
               )}
 
               {/* Panel footer */}
-              <Reveal>
-                <div className="panel-footer" style={{ marginTop: 96, paddingTop: 32, borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-                  <span style={{ fontSize: 9, letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>{C.brand.discipline}</span>
-                  <span style={{ fontSize: 9, letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>{C.brand.est} — © The Digital Scene</span>
-                </div>
-              </Reveal>
+              <div className="panel-footer" style={{ marginTop: 96, paddingTop: 32, borderTop: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+                <span style={{ fontSize: 9, letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)", textTransform: "uppercase" }}>© The Digital Scene</span>
+              </div>
             </div>
 
             <CaseStudyModal cs={activeCS} onClose={() => setActiveCS(null)} />
@@ -1198,7 +969,8 @@
     function App() {
       const [panel,       setPanel]       = useState(null);
       const [contactOpen, setContactOpen] = useState(false);
-      const [replayKey,   setReplayKey]   = useState(0);
+
+      const closePanel = () => setPanel(null);
 
       useEffect(() => {
         const fn = e => { if (e.key === "Escape" && panel) closePanel(); };
@@ -1206,12 +978,11 @@
         return () => window.removeEventListener("keydown", fn);
       }, [panel]);
 
-      const closePanel = () => { setPanel(null); setReplayKey(k => k + 1); };
-
       return (
         <>
-          <CustomCursor />
-          <HeroSection onOpenPanel={setPanel} onOpenContact={() => setContactOpen(true)} replayKey={replayKey} />
+          <HeroSection onOpenPanel={setPanel} onOpenContact={() => setContactOpen(true)} />
+          {/* Instant black backdrop — covers hero the moment a panel starts opening */}
+          {(panel || contactOpen) && <div style={{ position: "fixed", inset: 0, background: "#000", zIndex: 49 }} />}
           <AnimatePresence>
             {panel && <OverlayPanel key={panel} type={panel} onClose={closePanel} />}
           </AnimatePresence>

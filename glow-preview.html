@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glow Effect Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 80px;
+      font-family: 'Archivo Black', sans-serif;
+    }
+
+    .label {
+      color: rgba(255,255,255,0.3);
+      font-family: monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    /* ── Option A: pure text-shadow layers ── */
+    .glow-shadow {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 100px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow:
+        0 0 3px #fff,
+        0 0 10px rgba(255,230,160,1),
+        0 0 24px rgba(255,140,0,0.95),
+        0 0 50px rgba(230,40,0,0.85),
+        0 0 90px rgba(180,0,15,0.65),
+        0 0 150px rgba(110,0,8,0.4),
+        0 0 220px rgba(70,0,4,0.2);
+    }
+
+    /* ── Option B: blurred duplicate layers (closer to circular smudge) ── */
+    .glow-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    .glow-wrap .word {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 100px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      position: relative;
+      display: block;
+    }
+    /* Layer 3 — deep red, widest blur */
+    .glow-wrap .word::before {
+      content: attr(data-word);
+      position: absolute;
+      inset: 0;
+      color: rgba(180, 0, 20, 0.85);
+      filter: blur(45px);
+      z-index: -2;
+      pointer-events: none;
+    }
+    /* Layer 2 — orange, medium blur */
+    .glow-wrap .word::after {
+      content: attr(data-word);
+      position: absolute;
+      inset: 0;
+      color: rgba(240, 90, 0, 0.9);
+      filter: blur(20px);
+      z-index: -1;
+      pointer-events: none;
+    }
+    /* Top layer — bright cream, tight inner glow */
+    .glow-wrap .word-top {
+      color: #fff;
+      text-shadow:
+        0 0 3px #fff,
+        0 0 10px rgba(255,230,160,1),
+        0 0 20px rgba(255,160,40,0.9);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Option C: extra ring layer using sibling spans ── */
+    .glow-c {
+      position: relative;
+      display: inline-block;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 100px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+    .glow-c .c-base {
+      color: #fff;
+      position: relative; z-index: 3;
+      text-shadow:
+        0 0 2px #fff,
+        0 0 8px rgba(255,240,180,1),
+        0 0 18px rgba(255,160,30,0.9);
+    }
+    .glow-c .c-l1 {
+      position: absolute; inset: 0; z-index: 2;
+      color: rgba(255,80,0,0.85);
+      filter: blur(14px);
+    }
+    .glow-c .c-l2 {
+      position: absolute; inset: 0; z-index: 1;
+      color: rgba(200,20,0,0.8);
+      filter: blur(30px);
+    }
+    .glow-c .c-l3 {
+      position: absolute; inset: 0; z-index: 0;
+      color: rgba(140,0,10,0.65);
+      filter: blur(60px);
+    }
+    .glow-c .c-l4 {
+      position: absolute; inset: 0; z-index: -1;
+      color: rgba(90,0,5,0.5);
+      filter: blur(100px);
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <div class="label">Option A — pure text-shadow (smooth radial glow)</div>
+    <div class="glow-shadow">STREET</div>
+  </div>
+
+  <div>
+    <div class="label">Option B — blurred duplicate layers (closer circular smudge)</div>
+    <div class="glow-wrap">
+      <span class="word word-top" data-word="STREET">STREET</span>
+    </div>
+  </div>
+
+  <div>
+    <div class="label">Option C — 4-layer blur stack (most depth)</div>
+    <div class="glow-c">
+      <span class="c-l4">STREET</span>
+      <span class="c-l3">STREET</span>
+      <span class="c-l2">STREET</span>
+      <span class="c-l1">STREET</span>
+      <span class="c-base">STREET</span>
+    </div>
+  </div>
+
+  <div style="max-width: 600px; text-align: center; color: rgba(255,255,255,0.35); font-family: monospace; font-size: 11px; letter-spacing: 0.15em; line-height: 1.8; text-transform: uppercase; padding: 0 24px;">
+    Note — the concentric ring bands from the reference image are a photographic/post-processing
+    effect. CSS can approximate the warm→red radial glow but not discrete ring patterns.
+    If none of these hit 1:1, the cleanest path is pre-rendered PNGs per word (STREET, FASHION,
+    MUSIC, FILM) with the effect baked in — same slot animation, just swap text for &lt;img&gt;.
+  </div>
+
+</body>
+</html>
