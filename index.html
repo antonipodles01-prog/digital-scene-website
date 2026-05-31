@@ -20,8 +20,8 @@
       font-family: 'Druk Cond Super';
       src: url('./Fonts/JetBrainsMono-2.304/DrukCond-Super.ttf') format('truetype');
       font-weight: 900;
-      /* optional = use font if available within first paint, no swap, no CLS */
-      font-display: optional;
+      /* block = invisible until font ready, no fallback swap, no layout shift */
+      font-display: block;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
