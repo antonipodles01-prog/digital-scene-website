@@ -71,25 +71,9 @@
             justifyContent: 'center',
           }}
         >
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.span
-              key={open ? 'minus' : 'plus'}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.18 }}
-              style={{
-                fontSize: 88,
-                lineHeight: 1,
-                color: '#000',
-                fontWeight: 700,
-                userSelect: 'none',
-                display: 'block',
-              }}
-            >
-              {open ? '−' : '+'}
-            </motion.span>
-          </AnimatePresence>
+          <span style={{ fontSize: 88, lineHeight: 1, color: '#000', fontWeight: 700, userSelect: 'none', display: 'block' }}>
+            {open ? '−' : '+'}
+          </span>
         </button>
       );
     }
