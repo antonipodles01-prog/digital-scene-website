@@ -9,10 +9,7 @@
   <meta property="og:description" content="The Scene is a boutique talent agency operating within contemporary culture, representing fashion-first creators across lifestyle and creative industries.">
   <meta property="og:type" content="website">
 
-  <!-- White favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'><rect fill='white' width='1' height='1'/></svg>">
-
-  <!-- Preload font — no crossorigin for same-origin font (crossorigin causes a separate CORS fetch that @font-face doesn't use, wasting the preload) -->
   <link rel="preload" href="./Fonts/JetBrainsMono-2.304/DrukCond-Super.ttf" as="font" type="font/ttf">
 
   <style>
@@ -20,21 +17,28 @@
       font-family: 'Druk Cond Super';
       src: url('./Fonts/JetBrainsMono-2.304/DrukCond-Super.ttf') format('truetype');
       font-weight: 900;
-      /* block = invisible until font ready, no fallback swap, no layout shift */
       font-display: block;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body {
+    html {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      /* position:fixed on body is the reliable Safari fix for fixed children
+         breaking when overflow:hidden is set */
+      position: fixed;
       width: 100%;
       height: 100%;
+      overflow: hidden;
       background: #fff;
       color: #000;
       font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      overflow: hidden;
     }
 
     /* ── Home ──────────────────────────────────────────────── */
@@ -43,20 +47,20 @@
       inset: 0;
       display: flex;
       align-items: center;
-      padding-left: 36px;
-      overflow: hidden;
+      padding: 0 36px;
+      /* hidden until JS sets the correct font-size after font loads */
+      visibility: hidden;
     }
 
     #home h1 {
       font-family: 'Druk Cond Super', sans-serif;
       font-weight: 900;
-      font-size: clamp(140px, 36vw, 600px);
       line-height: 1;
       color: #000;
       text-transform: uppercase;
       letter-spacing: 0;
-      user-select: none;
       white-space: nowrap;
+      user-select: none;
       transform: translateY(0.02em);
     }
 
@@ -167,8 +171,26 @@
   </div>
 
   <script>
-    const toggle = document.getElementById('toggle');
-    const icon   = document.getElementById('toggle-icon');
+    // Fit headline to fill exactly between the 36px margins
+    function fitHeadline() {
+      const h1 = document.querySelector('#home h1');
+      const container = document.getElementById('home');
+      h1.style.fontSize = '10px';
+      const scale = container.clientWidth / h1.scrollWidth;
+      h1.style.fontSize = (10 * scale) + 'px';
+    }
+
+    // Run after font is loaded so measurement is accurate
+    document.fonts.ready.then(function () {
+      fitHeadline();
+      document.getElementById('home').style.visibility = 'visible';
+    });
+
+    window.addEventListener('resize', fitHeadline);
+
+    // Toggle
+    const toggle  = document.getElementById('toggle');
+    const icon    = document.getElementById('toggle-icon');
     const contact = document.getElementById('contact');
     let isOpen = false;
 
