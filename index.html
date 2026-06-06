@@ -23,6 +23,8 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html {
+      /* Fixing html locks the viewport in Safari so position:fixed children
+         don't drift when the address bar appears/disappears */
       position: fixed;
       width: 100%;
       height: 100%;
@@ -62,18 +64,18 @@
       user-select: none;
     }
 
-    /* ── Toggle — lives inside #home, right: 0 flush with content edge ── */
+    /* ── Toggle button ─────────────────────────────────────── */
     #toggle {
-      position: absolute;
-      top: clamp(20px, 3vw, 32px);
-      right: 0;
+      position: fixed;
+      top: 20px;
+      right: clamp(32px, 4vw, 52px);
+      z-index: 400;
       width: 88px;
       height: 88px;
       cursor: pointer;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
-      z-index: 400;
     }
     #toggle:active, #toggle:focus { outline: none; }
 
@@ -82,7 +84,7 @@
       inset: 0;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-end; /* icon flush with right edge = text edge */
       pointer-events: none;
     }
     .t-icon svg {
@@ -148,21 +150,20 @@
 
   <div id="home">
     <h1>THE SCENE</h1>
+  </div>
 
-    <!-- Button shares #home as parent; right: 0 sits flush with content edge -->
-    <div id="toggle" role="button" tabindex="0" aria-label="Open contact">
-      <span class="t-icon" id="icon-plus">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-          <rect x="11" y="0" width="10" height="32"/>
-          <rect x="0" y="11" width="32" height="10"/>
-        </svg>
-      </span>
-      <span class="t-icon" id="icon-minus" style="display:none">
-        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-          <rect x="0" y="11" width="32" height="10"/>
-        </svg>
-      </span>
-    </div>
+  <div id="toggle" role="button" tabindex="0" aria-label="Open contact">
+    <span class="t-icon" id="icon-plus">
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <rect x="11" y="0" width="10" height="32"/>
+        <rect x="0" y="11" width="32" height="10"/>
+      </svg>
+    </span>
+    <span class="t-icon" id="icon-minus" style="display:none">
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="11" width="32" height="10"/>
+      </svg>
+    </span>
   </div>
 
   <div id="contact" role="dialog" aria-modal="true" aria-label="Contact">
@@ -178,6 +179,7 @@
   </div>
 
   <script>
+    // Fit headline exactly within the 36px margins using precise rect measurement
     function fitHeadline() {
       var h1 = document.querySelector('#home h1');
       var container = document.getElementById('home');
@@ -196,6 +198,7 @@
 
     window.addEventListener('resize', fitHeadline);
 
+    // Toggle
     var toggle   = document.getElementById('toggle');
     var iconPlus = document.getElementById('icon-plus');
     var iconMinus = document.getElementById('icon-minus');
