@@ -68,21 +68,14 @@
     #toggle {
       position: fixed;
       top: 20px;
-      right: 28px;
+      right: 36px;
       z-index: 400;
       width: 88px;
       height: 88px;
-      background: transparent;
-      border: none;
       cursor: pointer;
       user-select: none;
-      padding: 0;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
-      -webkit-appearance: none;
-      appearance: none;
-      /* no flex here — children are absolute so they don't affect layout */
-      position: fixed;
     }
     #toggle:active, #toggle:focus { outline: none; }
 
@@ -159,11 +152,11 @@
     <h1>THE SCENE</h1>
   </div>
 
-  <!-- Two icons pre-rendered and overlaid — no DOM change on press, prevents Safari morph -->
-  <button id="toggle" aria-label="Open contact">
+  <!-- div role=button avoids all Safari/WebKit built-in button press effects -->
+  <div id="toggle" role="button" tabindex="0" aria-label="Open contact">
     <span class="t-icon" id="icon-plus">+</span>
     <span class="t-icon" id="icon-minus" style="display:none">−</span>
-  </button>
+  </div>
 
   <div id="contact" role="dialog" aria-modal="true" aria-label="Contact">
     <div class="contact-body">
@@ -211,6 +204,7 @@
     }
 
     toggle.addEventListener('click', function () { setOpen(!isOpen); });
+    toggle.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(!isOpen); } });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen) setOpen(false); });
   </script>
 
