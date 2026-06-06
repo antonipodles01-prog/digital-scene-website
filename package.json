@@ -1,0 +1,23 @@
+{
+  "name": "digital-scene-website",
+  "version": "1.0.0",
+  "description": "The Scene - A talent agency representing creators across fashion, culture and creative industries",
+  "scripts": {
+    "dev": "npx serve .",
+    "preview": "npx serve ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonipodles01-prog/digital-scene-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/antonipodles01-prog/digital-scene-website/issues"
+  },
+  "homepage": "https://github.com/antonipodles01-prog/digital-scene-website#readme",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
