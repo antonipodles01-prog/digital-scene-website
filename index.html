@@ -176,7 +176,8 @@
       const h1 = document.querySelector('#home h1');
       const container = document.getElementById('home');
       h1.style.fontSize = '10px';
-      const scale = container.clientWidth / h1.scrollWidth;
+      const innerWidth = container.clientWidth - 72; // subtract 36px padding on each side
+      const scale = innerWidth / h1.scrollWidth;
       h1.style.fontSize = (10 * scale) + 'px';
     }
 
