@@ -85,12 +85,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 88px;
-      font-weight: 700;
-      line-height: 1;
-      color: #000;
       pointer-events: none;
-      -webkit-font-smoothing: antialiased;
+    }
+    .t-icon svg {
+      width: 32px;
+      height: 32px;
+      display: block;
     }
 
     /* ── Contact overlay ───────────────────────────────────── */
@@ -152,10 +152,18 @@
     <h1>THE SCENE</h1>
   </div>
 
-  <!-- div role=button avoids all Safari/WebKit built-in button press effects -->
   <div id="toggle" role="button" tabindex="0" aria-label="Open contact">
-    <span class="t-icon" id="icon-plus">+</span>
-    <span class="t-icon" id="icon-minus" style="display:none">−</span>
+    <span class="t-icon" id="icon-plus">
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <rect x="13" y="0" width="6" height="32"/>
+        <rect x="0" y="13" width="32" height="6"/>
+      </svg>
+    </span>
+    <span class="t-icon" id="icon-minus" style="display:none">
+      <svg viewBox="0 0 32 6" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="32" height="6"/>
+      </svg>
+    </span>
   </div>
 
   <div id="contact" role="dialog" aria-modal="true" aria-label="Contact">
