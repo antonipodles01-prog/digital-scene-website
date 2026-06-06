@@ -125,7 +125,12 @@
     }
 
     .descriptor { max-width: 50%; }
-    @media (max-width: 768px) { .descriptor { max-width: 100%; } }
+
+    @media (max-width: 768px) {
+      .descriptor { max-width: 100%; }
+      #contact { justify-content: center; padding-top: 20vh; }
+      .contact-body { text-align: center; }
+    }
 
     .contact-body a {
       color: #000;
