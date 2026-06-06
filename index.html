@@ -189,12 +189,21 @@
       h1.style.fontSize = (10 * innerWidth / textWidth) + 'px';
     }
 
+    // Align toggle's right edge to the text's actual right edge
+    function alignToggle() {
+      var h1 = document.querySelector('#home h1');
+      var rect = h1.getBoundingClientRect();
+      var toggle = document.getElementById('toggle');
+      toggle.style.right = (window.innerWidth - rect.right) + 'px';
+    }
+
     document.fonts.ready.then(function () {
       fitHeadline();
+      alignToggle();
       document.getElementById('home').style.visibility = 'visible';
     });
 
-    window.addEventListener('resize', fitHeadline);
+    window.addEventListener('resize', function () { fitHeadline(); alignToggle(); });
 
     // Toggle
     var toggle   = document.getElementById('toggle');
